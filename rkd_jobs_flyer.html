@@ -1,0 +1,220 @@
+get <!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Heebo', Arial, sans-serif;
+      background: #ffffff;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 0;
+      direction: rtl;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background: #111111;
+      text-align: center;
+      padding: 36px 24px 28px;
+      border-bottom: 5px solid #FF0066;
+    }
+
+    .page-title {
+      font-size: 52pt;
+      font-weight: 800;
+      letter-spacing: 6px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .r { color: #00B0F0; }
+    .k { color: #FFFF00; }
+    .d { color: #FF0066; }
+
+    .page-subtitle {
+      color: #cccccc;
+      font-size: 11pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+
+    /* ── Body ── */
+    .page-body {
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* ── Hero text ── */
+    .hero {
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .hero-title {
+      font-size: 46pt;
+      font-weight: 900;
+      color: #111111;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .hero-highlight {
+      color: #FF0066;
+    }
+
+    .hero-sub {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #00B0F0;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* ── Section boxes ── */
+    .section-box {
+      border-radius: 10px;
+      padding: 24px 28px 20px;
+      border-width: 2px;
+      border-style: solid;
+    }
+    .section-box.blue  { border-color: #00B0F0; }
+    .section-box.pink  { border-color: #FF0066; }
+
+    .section-label {
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding-bottom: 8px;
+      border-bottom: 2px solid currentColor;
+      margin-bottom: 16px;
+    }
+    .section-label.blue { color: #00B0F0; border-color: #00B0F0; }
+    .section-label.pink { color: #FF0066; border-color: #FF0066; }
+
+    /* ── Contact block ── */
+    .contact-block {
+      text-align: center;
+    }
+
+    .contact-name-label {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .contact-name {
+      font-size: 22pt;
+      font-weight: 800;
+      color: #111111;
+      margin-bottom: 14px;
+    }
+
+    .phone-pill {
+      display: inline-block;
+      background: #111111;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-size: 22pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      direction: ltr;
+    }
+
+    /* ── Shift info ── */
+    .shift-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .shift-card {
+      flex: 1;
+      background: #111111;
+      border-radius: 8px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .shift-icon {
+      font-size: 26pt;
+      margin-bottom: 8px;
+    }
+
+    .shift-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .shift-detail {
+      font-size: 9.5pt;
+      color: #aaaaaa;
+      font-weight: 400;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      background: #111111;
+      text-align: center;
+      padding: 16px;
+      font-size: 9pt;
+      font-weight: 500;
+      color: #666666;
+      letter-spacing: 1px;
+      margin-top: auto;
+    }
+    .page-footer strong { color: #00B0F0; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title">
+      <span class="r">R</span><span class="k">K</span><span class="d">D</span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-sub">הצטרפו לצוות RKD!</div>
+      <div class="hero-title">
+        <span class="hero-highlight">דרושים</span> עובדים
+      </div>
+      <div class="hero-title">לשבת</div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section-box pink">
+      <div class="section-label pink">צרו קשר</div>
+      <div class="contact-block">
+        <div class="contact-name-label">דברו עם</div>
+        <div class="contact-name">דוד</div>
+        <div class="phone-pill">055-500-2413</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <strong>RKD</strong> &nbsp;|&nbsp; המייסדים 58, זכרון יעקב
+  </div>
+
+</body>
+</html>

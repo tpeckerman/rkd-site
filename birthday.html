@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Parties — RKD Arcade</title>
+  <meta name="description" content="Book a birthday party at RKD Arcade in Zichron Yaakov. Private access, unlimited play, claw machine credits and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header>
+    <nav>
+      <a href="index.html" class="logo">
+        <span class="r">R</span><span class="k">K</span><span class="d">D</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#about"        data-en="About"    data-he="אודות">About</a></li>
+        <li><a href="index.html#gallery"      data-en="Gallery"  data-he="גלריה">Gallery</a></li>
+        <li><a href="index.html#testimonials" data-en="Reviews"  data-he="המלצות">Reviews</a></li>
+        <li><a href="birthday.html"           data-en="Birthday" data-he="יום הולדת" style="color:var(--pink)">Birthday</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/972555002413" class="nav-wa" target="_blank" rel="noopener"
+           data-en="WhatsApp" data-he="וואטסאפ">WhatsApp</a>
+        <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">עברית</button>
+        <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ═══ BIRTHDAY HERO ═══ -->
+  <section class="bday-hero">
+    <div class="bday-hero-inner">
+      <div class="bday-hero-logo">
+        <span class="r">R</span><span class="k">K</span><span class="d">D</span>
+        &nbsp;
+        <span class="r">B</span><span class="k">-</span><span class="d">D</span><span class="r">A</span><span class="k">Y</span>
+      </div>
+      <p class="bday-hero-sub"
+         data-en="We&rsquo;re excited to celebrate with you!"
+         data-he="אנחנו נרגשים לחגוג איתכם!">We&rsquo;re excited to celebrate with you!</p>
+
+      <a href="https://wa.me/972555002413" class="btn btn-green" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span data-en="Book via WhatsApp" data-he="הזמינו דרך וואטסאפ">Book via WhatsApp</span>
+      </a>
+
+      <div class="bday-hero-img">
+        <div class="img-slot bday-hero-img-slot">
+          <img src="images/bday-hero.jpg" alt="Birthday party at RKD">
+          <div class="img-placeholder">
+            <div class="icon">🎂</div>
+            <span>Add bday-hero.jpg to the images/ folder</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BIRTHDAY DETAILS ═══ -->
+  <section class="bday-section bg2">
+    <div class="bday-grid">
+
+      <!-- Details -->
+      <div class="bday-card border-blue">
+        <div class="bday-card-label blue" data-en="Details" data-he="פרטים">Details</div>
+        <div class="bday-details-row">
+          <div>
+            <div class="bday-detail-key" data-en="Location" data-he="מיקום">Location</div>
+            <div style="font-weight:600; margin-bottom:4px;">Hamyasdim 58<br>Zichron Yaakov</div>
+            <div style="color:var(--muted); font-size:0.85rem"
+                 data-en="(bottom of the pedestrian mall)"
+                 data-he="(בתחתית הרחוב המסחרי)">(bottom of the pedestrian mall)</div>
+          </div>
+          <div>
+            <div class="bday-detail-key" data-en="Cost" data-he="עלות">Cost</div>
+            <div class="bday-cost-pill">
+              <div class="bday-cost-main">NIS 450</div>
+              <div class="bday-cost-sub"
+                   data-en="Up to 12 guests (adults included)"
+                   data-he="עד 12 אורחים (כולל מבוגרים)">Up to 12 guests (adults included)</div>
+            </div>
+            <div class="bday-cost-pill">
+              <div class="bday-cost-main">+NIS 35 <span style="font-weight:400;font-size:0.85rem"
+                   data-en="per person"
+                   data-he="לאדם">per person</span></div>
+              <div class="bday-cost-sub"
+                   data-en="Each additional guest, up to 18 total"
+                   data-he="לכל אורח נוסף, עד 18 בסך הכל">Each additional guest, up to 18 total</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What's Included -->
+      <div class="bday-card border-pink">
+        <div class="bday-card-label pink" data-en="What&rsquo;s Included" data-he="מה כלול">What&rsquo;s Included</div>
+        <ul class="check-list-w">
+          <li>
+            <span class="chk">&#10003;</span>
+            <span data-en="1 hour of VIP private access to RKD"
+                  data-he="שעה אחת של גישה פרטית VIP ל-RKD">1 hour of VIP private access to RKD</span>
+          </li>
+          <li>
+            <span class="chk">&#10003;</span>
+            <span data-en="Unlimited play for every guest on all machines (claw machines excluded)"
+                  data-he="משחק בלתי מוגבל לכל אורח על כל המכונות (ללא מכונות כדורים)">Unlimited play for every guest on all machines (claw machines excluded)</span>
+          </li>
+          <li>
+            <span class="chk">&#10003;</span>
+            <span data-en="A dedicated card with 100 claw machine credits (20 games) — additional credits available for purchase"
+                  data-he="כרטיס ייעודי עם 100 קרדיטים למכונת כדורים (20 משחקים) — ניתן לרכוש קרדיטים נוספים">A dedicated card with 100 claw machine credits (20 games) — additional credits available for purchase</span>
+          </li>
+          <li>
+            <span class="chk">&#10003;</span>
+            <span data-en="Reserved picnic table outside for food, drinks &amp; decorations — table may be used beyond 1 hour, subject to availability"
+                  data-he="שולחן פיקניק שמור בחוץ לאוכל, שתייה וקישוטים — השולחן עשוי לשמש מעבר לשעה, בכפוף לזמינות">Reserved picnic table outside for food, drinks &amp; decorations — table may be used beyond 1 hour, subject to availability</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Important Notes -->
+      <div class="bday-card border-blue">
+        <div class="bday-card-label blue" data-en="Important Notes" data-he="הערות חשובות">Important Notes</div>
+        <ul class="notes-list-w">
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="Recommended for children ages 5 and up."
+                  data-he="מומלץ לילדים מגיל 5 ומעלה.">Recommended for children ages 5 and up.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="Full payment is required to confirm your reservation."
+                  data-he="נדרש תשלום מלא לאישור ההזמנה.">Full payment is required to confirm your reservation.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="Cancellations made at least 48 hours in advance are eligible for a refund, minus NIS 100."
+                  data-he="ביטולים שנעשים לפחות 48 שעות מראש זכאים להחזר, בניכוי 100 ₪.">Cancellations made at least 48 hours in advance are eligible for a refund, minus NIS 100.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="The 1-hour session begins at the agreed start time — not upon guest arrival."
+                  data-he="מפגש השעה מתחיל בשעה המוסכמת — לא עם הגעת האורחים.">The 1-hour session begins at the agreed start time — not upon guest arrival.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="Parental supervision is required at all times."
+                  data-he="נדרש פיקוח הורי בכל עת.">Parental supervision is required at all times.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="No food or drinks are permitted inside RKD. Please keep all items at your outdoor table."
+                  data-he="אסור להכניס אוכל ושתייה לתוך RKD. אנא השאירו הכל בשולחן החיצוני.">No food or drinks are permitted inside RKD. Please keep all items at your outdoor table.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="Please clean up your table before departing."
+                  data-he="אנא נקו את השולחן לפני עזיבה.">Please clean up your table before departing.</span>
+          </li>
+          <li>
+            <span class="dot">&#8226;</span>
+            <span data-en="Have fun! 🎉"
+                  data-he="תהנו! 🎉">Have fun! 🎉</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ BOOK CTA ═══ -->
+  <div class="bday-cta">
+    <h2 class="section-title"
+        data-en="Ready to Book?"
+        data-he="מוכנים להזמין?">Ready to Book?</h2>
+    <p data-en="Message David on WhatsApp to check availability and reserve your date."
+       data-he="שלחו הודעה לדוד בוואטסאפ לבדיקת זמינות והזמנת תאריך.">
+      Message David on WhatsApp to check availability and reserve your date.
+    </p>
+    <a href="https://wa.me/972555002413" class="btn btn-green" target="_blank" rel="noopener"
+       style="font-size:1.05rem; padding:16px 36px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span data-en="Message Us on WhatsApp" data-he="שלחו לנו הודעה בוואטסאפ">Message Us on WhatsApp</span>
+    </a>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="r">R</span><span class="k">K</span><span class="d">D</span>
+      </div>
+      <div class="footer-info">
+        📍 Hamyasdim 58, Zichron Yaakov<br>
+        <a href="https://wa.me/972555002413" target="_blank" rel="noopener">055-500-2413</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.instagram.com/rkd.zichron/" target="_blank" rel="noopener">@rkd.zichron</a>
+      </div>
+      <div class="footer-copy">© 2025 RKD Arcade, Zichron Yaakov</div>
+    </div>
+  </footer>
+
+  <!-- ═══ FLOATING WHATSAPP ═══ -->
+  <a href="https://wa.me/972555002413" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

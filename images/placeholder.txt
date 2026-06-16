@@ -1,0 +1,15 @@
+Drop your photos into this folder to populate the website.
+
+Recommended filenames:
+  hero.jpg      — Main hero image on the home page
+  about.jpg     — Photo shown in the About section
+  photo1.jpg    — Gallery photo 1
+  photo2.jpg    — Gallery photo 2
+  photo3.jpg    — Gallery photo 3
+  photo4.jpg    — Gallery photo 4
+  photo5.jpg    — Gallery photo 5
+  photo6.jpg    — Gallery photo 6
+  bday-hero.jpg — Hero image on the Birthday page
+
+Any image format works (jpg, jpeg, png, webp).
+Missing slots are hidden automatically — no code changes needed.
