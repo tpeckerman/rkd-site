@@ -6,11 +6,11 @@
   --pink:   #FF0066;
   --green:  #25D366;
   --bg:     #ffffff;
-  --bg2:    #f4f6f8;
+  --bg2:    #fafafa;
   --bg3:    #ffffff;
   --text:   #111111;
   --muted:  #5a6270;
-  --border: #e2e6ea;
+  --border: #ebebeb;
   --radius: 12px;
   --ease:   0.2s ease;
 }
@@ -121,7 +121,7 @@ header {
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 12px rgba(0,0,0,0.04);
 }
 
 nav {
@@ -285,7 +285,7 @@ nav {
   background: var(--bg2);
   border: 2px dashed var(--border);
   border-radius: var(--radius);
-  color: #999;
+  color: #bbb;
   font-size: 0.82rem;
   text-align: center;
   padding: 20px;
@@ -304,7 +304,7 @@ nav {
 
 .about-img-slot {
   aspect-ratio: 1;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
 }
 
 .about-title {
@@ -344,7 +344,7 @@ nav {
   aspect-ratio: 1;
   background: var(--bg2);
   border: 1px solid var(--border);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .gallery-item img {
   width: 100%;
@@ -393,7 +393,7 @@ nav {
   border-radius: var(--radius);
   padding: 30px 26px 24px;
   position: relative;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 .testimonial-card::before {
   content: '\201C';
@@ -553,7 +553,7 @@ body.rtl .wa-float { right: auto; left: 28px; }
   background: var(--bg3);
   border-radius: var(--radius);
   padding: 28px 32px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 .bday-card.border-blue { border: 2px solid var(--blue); }
 .bday-card.border-pink { border: 2px solid var(--pink); }
@@ -644,7 +644,7 @@ body.rtl .wa-float { right: auto; left: 28px; }
     padding: 20px;
     gap: 18px;
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
   }
   .nav-links.open { display: flex; }
   .nav-hamburger { display: flex; }
