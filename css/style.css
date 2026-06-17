@@ -1,11 +1,11 @@
 /* ── Variables ── */
 :root {
   --blue:   #00B0F0;
-  --yellow: #CC9900;
+  --yellow: #CC9900;   /* darkened gold for readability on light bg */
   --yellow-glow: #FFDD00;
   --pink:   #FF0066;
   --green:  #25D366;
-  --bg:     #f7f4ef;
+  --bg:     #f7f4ef;   /* warm off-white, echoes the stone wall */
   --bg2:    #eeeae3;
   --bg3:    #ffffff;
   --text:   #1a1a1a;
@@ -220,9 +220,10 @@ nav {
   position: relative;
   overflow: hidden;
   background: url('../images/hero.jpg') center/cover no-repeat;
-  background-color: #1a1218;
+  background-color: #1a1218; /* fallback if image missing */
 }
 
+/* semi-transparent overlay so text is always readable */
 .hero::before {
   content: '';
   position: absolute;
@@ -231,6 +232,7 @@ nav {
   pointer-events: none;
 }
 
+/* subtle colour blooms behind the text */
 .hero::after {
   content: '';
   position: absolute;
@@ -273,6 +275,7 @@ nav {
   justify-content: center;
 }
 
+/* Image slot component (used on about page etc) */
 .img-slot { position: relative; border-radius: var(--radius); overflow: hidden; }
 .img-slot img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); }
 .img-placeholder {
@@ -353,10 +356,18 @@ nav {
 }
 .gallery-item:hover img { transform: scale(1.06); }
 
-.gallery-item.video-tile { position: relative; cursor: pointer; }
-.gallery-item.video-tile video { width: 100%; height: 100%; object-fit: cover; }
+/* video tiles */
+.gallery-item.video-tile {
+  position: relative;
+  cursor: pointer;
+}
+.gallery-item.video-tile video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .gallery-item.video-tile::after {
-  content: '\25B6';
+  content: '▶';
   position: absolute;
   inset: 0;
   display: flex;
@@ -525,10 +536,15 @@ body.rtl .wa-float { right: auto; left: 28px; }
   font-size: 1.05rem;
   margin-bottom: 2rem;
 }
-.bday-hero-img { max-width: 700px; margin: 2.5rem auto 0; }
+.bday-hero-img {
+  max-width: 700px;
+  margin: 2.5rem auto 0;
+}
 .bday-hero-img-slot { aspect-ratio: 16/7; }
 
-.bday-section { padding: 60px 20px; }
+.bday-section {
+  padding: 60px 20px;
+}
 .bday-grid {
   max-width: 860px;
   margin: 0 auto;
