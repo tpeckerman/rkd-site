@@ -147,17 +147,6 @@ nav {
 }
 .lang-toggle:hover { border-color: var(--blue); color: var(--blue); }
 
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-}
-.nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); }
-
 /* ── Hero ── */
 .hero {
   min-height: 92vh;
@@ -168,13 +157,13 @@ nav {
   position: relative;
   overflow: hidden;
   background: url('../images/hero.jpg') center/cover no-repeat;
-  background-color: #0d0d0d;
+  background-color: #ffffff;  /* white fallback when image not yet uploaded */
 }
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.48);
+  background: rgba(255,255,255,0.45);
   pointer-events: none;
 }
 .hero-inner {
@@ -292,7 +281,6 @@ nav {
 }
 .ig-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(220,39,67,0.5); color: #fff; }
 .ig-btn svg { width: 26px; height: 26px; }
-.ig-sub { color: var(--muted); margin-top: 1rem; font-size: 0.88rem; }
 
 /* ── Footer ── */
 footer {
@@ -427,7 +415,6 @@ body.rtl .wa-float { right: auto; left: 28px; }
   .about-img { display: none; }
   .bday-details-row { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
-  .nav-bday span.long { display: none; }
 }
 
 @media (max-width: 600px) {
