@@ -18,11 +18,6 @@
     applyLang(currentLang === 'en' ? 'he' : 'en');
   };
 
-  window.toggleNav = function () {
-    var links = document.getElementById('nav-links');
-    if (links) links.classList.toggle('open');
-  };
-
   function initImages() {
     document.querySelectorAll('.img-slot').forEach(function (wrap) {
       var img = wrap.querySelector('img');
@@ -69,8 +64,6 @@
         if (target) {
           e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth' });
-          var links = document.getElementById('nav-links');
-          if (links) links.classList.remove('open');
         }
       });
     });
