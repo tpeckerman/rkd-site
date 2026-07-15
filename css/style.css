@@ -202,11 +202,13 @@ nav {
   margin-bottom: 0.6rem;
 }
 .hero-tagline {
+  font-family: 'Playfair Display', 'Montserrat', Arial, sans-serif;
   font-size: clamp(1.4rem, 3.2vw, 2.1rem);
   color: var(--text);
   line-height: 1.5;
   font-weight: 700;
 }
+body.rtl .hero-tagline { font-family: 'Heebo', Arial, sans-serif; }
 
 /* ── About ── */
 .about-grid {
