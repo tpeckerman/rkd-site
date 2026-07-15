@@ -189,7 +189,7 @@ nav {
 .hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 700px;
+  max-width: 850px;
   margin: 0 auto;
   padding: 20px 20px 36px;
 }
@@ -202,10 +202,10 @@ nav {
   margin-bottom: 0.6rem;
 }
 .hero-tagline {
-  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
   color: var(--text);
-  line-height: 1.6;
-  font-weight: 500;
+  line-height: 1.5;
+  font-weight: 700;
 }
 
 /* ── About ── */
