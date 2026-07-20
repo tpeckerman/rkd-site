@@ -30,7 +30,8 @@
 
       var data = { form: formName };
       new FormData(form).forEach(function (value, key) {
-        data[key] = value;
+        // Checkbox groups share a name; combine repeated keys into one list.
+        data[key] = data.hasOwnProperty(key) ? data[key] + ', ' + value : value;
       });
 
       var submitBtn = form.querySelector('button[type="submit"]');

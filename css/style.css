@@ -599,6 +599,32 @@ body.rtl .form-field { text-align: right; }
 }
 .form-field input:focus,
 .form-field select:focus { outline: none; border-color: var(--blue); }
+
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
+.form-field .checkbox-group .checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--ease);
+}
+.checkbox-option:hover { border-color: var(--blue); }
+.checkbox-option input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
 .form-msg { font-size: 0.85rem; margin-top: 14px; min-height: 1.2em; }
 .form-msg.success { color: var(--green); }
 .form-msg.error { color: var(--pink); }

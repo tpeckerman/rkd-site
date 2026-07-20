@@ -46,7 +46,8 @@ be pasted.
 
 - **Sign-up sheet** (air hockey tournament entries): `A` name, `B` phone.
 - **Updates sheet** (general tournament-interest list): `A` name, `B` phone,
-  `C` age, `D` gender.
+  `C` age, `D` gender, `E` games (comma-separated list from the multi-select
+  checkboxes — e.g. "Air Hockey, Pac-Man").
 
 Rows always append below the existing header row, so data starts on row 2 as
 requested. Visitors never see the spreadsheet — only the form. The sheet
@@ -54,8 +55,17 @@ stays private; the script runs under your Google account's permissions.
 
 ## Notes
 
-- If you ever edit the script after the initial deploy, use **Deploy → Manage
-  deployments → Edit → New version** so the same `/exec` URL keeps working.
+- **You already deployed this once** — the `Code.gs` in this repo now writes
+  a 5th column (`games`) for the updates sheet, so you need to update the
+  live script or that field will silently be dropped. Go back into
+  **Extensions → Apps Script** on either sheet, replace the code with the
+  latest `google-apps-script/Code.gs`, then **Deploy → Manage deployments →
+  (pencil/edit icon) → Version: New version → Deploy**. This keeps the same
+  `/exec` URL, so you don't need to touch `js/forms.js` again.
+- More generally: any time you edit the script after the initial deploy, use
+  **Deploy → Manage deployments → Edit → New version** so the same `/exec`
+  URL keeps working — a plain re-save in the editor does *not* update the
+  live version on its own.
 - The air hockey tournament page used to live in a separate repo/site
   (`rkd-air-hockey`, built with Lovable). It's now folded into this repo as
   a plain page (`air-hockey.html`) so the whole site deploys from one place.
