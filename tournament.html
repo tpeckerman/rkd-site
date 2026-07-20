@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Group Rates — RKD Arcade</title>
-  <meta name="description" content="Bringing a group of 10 or more to RKD Arcade in Zichron Yaakov? Message us on WhatsApp for a group rate.">
+  <title>Tournaments — RKD Arcade</title>
+  <meta name="description" content="Sign up for the RKD Adult Men's Air Hockey Tournament on July 23, or get notified about future game tournaments at RKD Arcade in Zichron Yaakov.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,8 +22,8 @@
         <li><a href="index.html#about" data-en="About"       data-he="אודות">About</a></li>
         <li><a href="photos.html"      data-en="Photos"      data-he="תמונות">Photos</a></li>
         <li><a href="birthday.html"    data-en="Birthday"    data-he="יום הולדת">Birthday</a></li>
-        <li><a href="group-rates.html" class="active" data-en="Group Rates" data-he="מחירי קבוצות">Group Rates</a></li>
-        <li><a href="tournament.html" data-en="Tournament" data-he="טורניר">Tournament</a></li>
+        <li><a href="group-rates.html" data-en="Group Rates" data-he="מחירי קבוצות">Group Rates</a></li>
+        <li><a href="tournament.html" class="active" data-en="Tournament" data-he="טורניר">Tournament</a></li>
       </ul>
 
       <div class="nav-actions">
@@ -38,26 +38,27 @@
     </nav>
   </header>
 
-  <!-- GROUP RATES -->
+  <!-- TOURNAMENTS INTRO -->
   <section style="padding-top:60px; text-align:center;">
-    <h2 class="section-title" data-en="Group Rates" data-he="מחירי קבוצות">Group Rates</h2>
+    <h2 class="section-title" data-en="Tournaments" data-he="טורנירים">Tournaments</h2>
     <p class="section-sub"
-       data-en="Bringing 10 or more? Message us on WhatsApp and we&rsquo;ll set you up with a group rate."
-       data-he="מגיעים ב-10 או יותר? שלחו לנו הודעה בוואטסאפ ונסדר לכם מחיר קבוצתי.">
-      Bringing 10 or more? Message us on WhatsApp and we&rsquo;ll set you up with a group rate.
+       data-en="Interested in signing up for an air hockey or other game tournament? Contact us and we&rsquo;ll let you know when the next one happens."
+       data-he="מעוניינים להירשם לטורניר הוקי אוויר או משחק אחר? צרו איתנו קשר ונעדכן אתכם כשהטורניר הבא יתקיים.">
+      Interested in signing up for an air hockey or other game tournament? Contact us and we&rsquo;ll let you know when the next one happens.
     </p>
-    <a href="https://wa.me/972555002413?text=Hi!%20I%27d%20like%20to%20ask%20about%20a%20group%20rate%20for%2010%2B%20people." class="btn btn-green" target="_blank" rel="noopener">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <span data-en="Get a Group Rate" data-he="קבלו הצעת מחיר קבוצתית">Get a Group Rate</span>
-    </a>
+    <button type="button" class="btn btn-blue" id="open-updates-modal">
+      <span data-en="Get Tournament Updates" data-he="קבלו עדכונים על טורנירים">Get Tournament Updates</span>
+    </button>
   </section>
 
-  <!-- STOREFRONT -->
+  <!-- UPCOMING TOURNAMENT -->
   <section class="divider">
-    <div style="max-width:700px; margin:0 auto;">
-      <div class="group-photo">
-        <img src="images/rkd_birthright.png" alt="A tour group outside RKD" onerror="this.parentElement.innerHTML='<div class=\'about-img-placeholder\'>🎮</div>'">
-      </div>
+    <div class="tourney-card border-pink">
+      <div class="tourney-card-title" data-en="Adult Men&rsquo;s Air Hockey Tournament" data-he="טורניר הוקי אוויר לגברים בוגרים">Adult Men&rsquo;s Air Hockey Tournament</div>
+      <div class="tourney-card-date" data-en="July 23" data-he="23 ביולי">July 23</div>
+      <a href="https://rkd-air-hockey.lovable.app/" class="btn btn-pink" target="_blank" rel="noopener">
+        <span data-en="View Tournament &amp; Sign Up" data-he="לפרטים והרשמה">View Tournament &amp; Sign Up</span>
+      </a>
     </div>
   </section>
 
@@ -77,6 +78,34 @@
     </div>
   </footer>
 
+  <!-- TOURNAMENT UPDATES MODAL -->
+  <div class="modal-overlay" id="updates-modal">
+    <div class="modal-box">
+      <button type="button" class="modal-close" id="close-updates-modal" aria-label="Close">&times;</button>
+      <div class="modal-title" data-en="Tournament Updates" data-he="עדכוני טורנירים">Tournament Updates</div>
+      <div class="modal-sub"
+           data-en="Leave your name and phone number and we&rsquo;ll let you know when the next tournament happens."
+           data-he="השאירו שם ומספר טלפון ונעדכן אתכם כשהטורניר הבא יתקיים.">
+        Leave your name and phone number and we&rsquo;ll let you know when the next tournament happens.
+      </div>
+      <form id="updates-form">
+        <div class="form-field">
+          <label for="updates-name" data-en="Name" data-he="שם">Name</label>
+          <input type="text" id="updates-name" name="name" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="updates-phone" data-en="Phone" data-he="טלפון">Phone</label>
+          <input type="tel" id="updates-phone" name="phone" required autocomplete="tel">
+        </div>
+        <button type="submit" class="btn btn-blue" style="width:100%; justify-content:center;">
+          <span data-en="Submit" data-he="שליחה">Submit</span>
+        </button>
+        <div class="form-msg" id="updates-form-msg"></div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
+  <script src="js/tournament.js"></script>
 </body>
 </html>
