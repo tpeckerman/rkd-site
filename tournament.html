@@ -46,9 +46,49 @@
        data-he="מעוניינים להירשם לטורניר הוקי אוויר או משחק אחר? צרו איתנו קשר ונעדכן אתכם כשהטורניר הבא יתקיים.">
       Interested in signing up for an air hockey or other game tournament? Contact us and we&rsquo;ll let you know when the next one happens.
     </p>
-    <button type="button" class="btn btn-blue" id="open-updates-modal">
+    <button type="button" class="btn btn-blue" id="open-updates-form" aria-expanded="false" aria-controls="updates-form-wrap">
       <span data-en="Get Tournament Updates" data-he="קבלו עדכונים על טורנירים">Get Tournament Updates</span>
     </button>
+
+    <div class="inline-form" id="updates-form-wrap">
+      <div class="inline-form-inner">
+        <div class="inline-form-box">
+          <div class="inline-form-title" data-en="Tournament Updates" data-he="עדכוני טורנירים">Tournament Updates</div>
+          <div class="inline-form-sub"
+               data-en="Leave your details and we&rsquo;ll let you know when the next tournament happens."
+               data-he="השאירו פרטים ונעדכן אתכם כשהטורניר הבא יתקיים.">
+            Leave your details and we&rsquo;ll let you know when the next tournament happens.
+          </div>
+          <form id="updates-form">
+            <div class="form-field">
+              <label for="updates-name" data-en="Name" data-he="שם">Name</label>
+              <input type="text" id="updates-name" name="name" required autocomplete="name">
+            </div>
+            <div class="form-field">
+              <label for="updates-phone" data-en="Phone" data-he="טלפון">Phone</label>
+              <input type="tel" id="updates-phone" name="phone" required autocomplete="tel">
+            </div>
+            <div class="form-field">
+              <label for="updates-age" data-en="Age" data-he="גיל">Age</label>
+              <input type="number" id="updates-age" name="age" min="1" max="120" required>
+            </div>
+            <div class="form-field">
+              <label for="updates-gender" data-en="Gender" data-he="מגדר">Gender</label>
+              <select id="updates-gender" name="gender" required>
+                <option value="" disabled selected data-en="Select..." data-he="בחרו...">Select...</option>
+                <option value="Male" data-en="Male" data-he="זכר">Male</option>
+                <option value="Female" data-en="Female" data-he="נקבה">Female</option>
+                <option value="Other" data-en="Other" data-he="אחר">Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-blue" style="width:100%; justify-content:center;">
+              <span data-en="Submit" data-he="שליחה">Submit</span>
+            </button>
+            <div class="form-msg" id="updates-form-msg"></div>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- UPCOMING TOURNAMENT -->
@@ -56,7 +96,7 @@
     <div class="tourney-card border-pink">
       <div class="tourney-card-title" data-en="Adult Men&rsquo;s Air Hockey Tournament" data-he="טורניר הוקי אוויר לגברים בוגרים">Adult Men&rsquo;s Air Hockey Tournament</div>
       <div class="tourney-card-date" data-en="July 23" data-he="23 ביולי">July 23</div>
-      <a href="https://rkd-air-hockey.lovable.app/" class="btn btn-pink" target="_blank" rel="noopener">
+      <a href="air-hockey.html" class="btn btn-pink">
         <span data-en="View Tournament &amp; Sign Up" data-he="לפרטים והרשמה">View Tournament &amp; Sign Up</span>
       </a>
     </div>
@@ -78,34 +118,7 @@
     </div>
   </footer>
 
-  <!-- TOURNAMENT UPDATES MODAL -->
-  <div class="modal-overlay" id="updates-modal">
-    <div class="modal-box">
-      <button type="button" class="modal-close" id="close-updates-modal" aria-label="Close">&times;</button>
-      <div class="modal-title" data-en="Tournament Updates" data-he="עדכוני טורנירים">Tournament Updates</div>
-      <div class="modal-sub"
-           data-en="Leave your name and phone number and we&rsquo;ll let you know when the next tournament happens."
-           data-he="השאירו שם ומספר טלפון ונעדכן אתכם כשהטורניר הבא יתקיים.">
-        Leave your name and phone number and we&rsquo;ll let you know when the next tournament happens.
-      </div>
-      <form id="updates-form">
-        <div class="form-field">
-          <label for="updates-name" data-en="Name" data-he="שם">Name</label>
-          <input type="text" id="updates-name" name="name" required autocomplete="name">
-        </div>
-        <div class="form-field">
-          <label for="updates-phone" data-en="Phone" data-he="טלפון">Phone</label>
-          <input type="tel" id="updates-phone" name="phone" required autocomplete="tel">
-        </div>
-        <button type="submit" class="btn btn-blue" style="width:100%; justify-content:center;">
-          <span data-en="Submit" data-he="שליחה">Submit</span>
-        </button>
-        <div class="form-msg" id="updates-form-msg"></div>
-      </form>
-    </div>
-  </div>
-
   <script src="js/main.js"></script>
-  <script src="js/tournament.js"></script>
+  <script src="js/forms.js"></script>
 </body>
 </html>

@@ -489,43 +489,91 @@ footer {
 .tourney-card-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
 .tourney-card-date { color: var(--muted); font-size: 0.95rem; margin-bottom: 26px; }
 
-/* ── Modal ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
+/* ── Air hockey page ── */
+.ah-hero {
+  min-height: 60vh;
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
-  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: url('../images/air-hockey.jpg') center/cover no-repeat;
+  background-color: var(--bg);
 }
-.modal-overlay.open { display: flex; }
-.modal-box {
+.ah-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10,10,10,0.72);
+  pointer-events: none;
+}
+.ah-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; padding: 60px 20px; }
+.ah-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+}
+.ah-title {
+  font-size: clamp(2.6rem, 7vw, 4.2rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 1px;
+  margin-bottom: 1.2rem;
+}
+.ah-tagline { color: var(--text); font-size: 1.05rem; opacity: 0.9; }
+
+.ah-details-card {
+  max-width: 560px;
+  margin: 0 auto;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px;
-  max-width: 420px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  padding: 12px 32px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
 }
-.modal-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: transparent;
-  border: none;
+.ah-detail-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ah-detail-row:last-child { border-bottom: none; }
+.ah-detail-label {
+  min-width: 90px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   color: var(--muted);
-  font-size: 1.4rem;
-  cursor: pointer;
-  line-height: 1;
 }
-body.rtl .modal-close { right: auto; left: 14px; }
-.modal-close:hover { color: var(--text); }
-.modal-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
-.modal-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 22px; }
+.ah-detail-value { font-weight: 700; font-size: 1.05rem; }
+
+/* ── Inline expanding form ── */
+.inline-form {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s ease;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.inline-form.open { grid-template-rows: 1fr; }
+.inline-form-inner { overflow: hidden; }
+.inline-form-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-top: 20px;
+  text-align: left;
+}
+body.rtl .inline-form-box { text-align: right; }
+.inline-form-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+.inline-form-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 20px; }
 
 .form-field { margin-bottom: 16px; text-align: left; }
 body.rtl .form-field { text-align: right; }
@@ -538,7 +586,8 @@ body.rtl .form-field { text-align: right; }
   color: var(--muted);
   margin-bottom: 6px;
 }
-.form-field input {
+.form-field input,
+.form-field select {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
@@ -548,7 +597,8 @@ body.rtl .form-field { text-align: right; }
   font-family: inherit;
   font-size: 0.95rem;
 }
-.form-field input:focus { outline: none; border-color: var(--blue); }
+.form-field input:focus,
+.form-field select:focus { outline: none; border-color: var(--blue); }
 .form-msg { font-size: 0.85rem; margin-top: 14px; min-height: 1.2em; }
 .form-msg.success { color: var(--green); }
 .form-msg.error { color: var(--pink); }
