@@ -1,6 +1,6 @@
 (function () {
   // Paste the Apps Script Web App /exec URL (see TOURNAMENT_SETUP.md) here.
-  var GOOGLE_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+  var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyosQlkAi2HfQHAffj_xqSBpuq-DumHU4KLzrnHl3n0kXSs3ISCEyliiKquXxkxkF-Czg/exec';
 
   function setupToggle(buttonId, wrapId) {
     var btn = document.getElementById(buttonId);
