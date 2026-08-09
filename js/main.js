@@ -1,22 +1,6 @@
 (function () {
-  var LANG_KEY = 'rkd_lang';
-  var currentLang = localStorage.getItem(LANG_KEY) || 'en';
-
-  function applyLang(lang) {
-    document.querySelectorAll('[data-en]').forEach(function (el) {
-      el.innerHTML = el.getAttribute('data-' + lang) || '';
-    });
-    document.body.classList.toggle('rtl', lang === 'he');
-    document.documentElement.lang = lang === 'he' ? 'he' : 'en';
-    var toggle = document.getElementById('lang-toggle');
-    if (toggle) toggle.textContent = lang === 'en' ? 'עברית' : 'English';
-    localStorage.setItem(LANG_KEY, lang);
-    currentLang = lang;
-  }
-
-  window.toggleLang = function () {
-    applyLang(currentLang === 'en' ? 'he' : 'en');
-  };
+  // English and Hebrew live at separate URLs (/ and /he/), each server-rendered
+  // in its own language, so no client-side language toggle is needed here.
 
   function initImages() {
     document.querySelectorAll('.img-slot').forEach(function (wrap) {
@@ -87,7 +71,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    applyLang(currentLang);
     initImages();
     initGallery();
     initSmoothScroll();

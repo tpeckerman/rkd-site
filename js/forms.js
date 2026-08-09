@@ -45,12 +45,14 @@
         body: new URLSearchParams(data),
       })
         .then(function () {
-          msg.textContent = 'Thanks! We’ll be in touch.';
+          var isHebrew = document.documentElement.lang === 'he';
+          msg.textContent = isHebrew ? 'תודה! ניצור איתכם קשר בקרוב.' : 'Thanks! We’ll be in touch.';
           msg.className = 'form-msg success';
           form.reset();
         })
         .catch(function () {
-          msg.textContent = 'Something went wrong. Please try again or message us on WhatsApp.';
+          var isHebrew = document.documentElement.lang === 'he';
+          msg.textContent = isHebrew ? 'משהו השתבש. אנא נסו שוב או שלחו לנו הודעה בוואטסאפ.' : 'Something went wrong. Please try again or message us on WhatsApp.';
           msg.className = 'form-msg error';
         })
         .finally(function () {
