@@ -141,6 +141,7 @@ function doPost(e) {
   try {
     var params = (e && e.parameter) || {};
     if (params.action === 'paid') return jsonOut(markPaid(params));
+    if (params.action === 'paycallback') return jsonOut(paymentCallback(e));
     return jsonOut(reserve(params));
   } catch (err) {
     return jsonOut({ ok: false, error: err.message });
@@ -387,17 +388,158 @@ function markPaid(params) {
 
   var ref = (params.ref || '').toString().trim();
   if (!ref) return { ok: false, error: 'Missing ref' };
+  return setPaid(ref);
+}
 
+/** Flip one booking to PAID. Already-paid bookings are left as they are. */
+function setPaid(ref) {
   var sheet = SpreadsheetApp.openById(CONFIG.sheetId).getSheetByName('Bookings');
   var rows = sheet.getDataRange().getValues();
   for (var i = 1; i < rows.length; i++) {
-    if ((rows[i][0] || '').toString().trim() === ref) {
-      sheet.getRange(i + 1, 14).setValue('PAID');
-      sheet.getRange(i + 1, 16).setValue(new Date());
-      return { ok: true, ref: ref };
+    if ((rows[i][0] || '').toString().trim() !== ref) continue;
+    if ((rows[i][13] || '').toString().trim().toUpperCase() === 'PAID') {
+      return { ok: true, ref: ref, status: 'already paid' };
     }
+    sheet.getRange(i + 1, 14).setValue('PAID');
+    sheet.getRange(i + 1, 16).setValue(new Date());
+    return { ok: true, ref: ref };
   }
   return { ok: false, error: 'Unknown ref' };
+}
+
+/**
+ * Receives the "payment completed" callback from the payment provider.
+ *
+ * Providers each post their own field names, so nothing here depends on
+ * knowing them. Every callback is written verbatim to the Payments tab; the
+ * booking reference is recovered by its shape (RKD-nnnnnn-nnnn) from anywhere
+ * in the payload; and the booking is only marked PAID on an explicit success
+ * signal. Anything unrecognised is logged and emailed rather than guessed at,
+ * because marking an unpaid party PAID would give away a slot for free.
+ *
+ * Point the provider's notifyUrl at:
+ *   <your /exec URL>?action=paycallback&token=<WEBHOOK_TOKEN>
+ * The token travels in the URL, so it both routes and authenticates.
+ */
+function paymentCallback(e) {
+  var params = (e && e.parameter) || {};
+  var expected = PropertiesService.getScriptProperties().getProperty('WEBHOOK_TOKEN');
+  if (!expected || (params.token || '') !== expected) return { ok: false, error: 'Unauthorized' };
+
+  var raw = '';
+  try {
+    raw = (e && e.postData && e.postData.contents) || '';
+  } catch (ignored) {
+    raw = '';
+  }
+  var everything = JSON.stringify(params) + ' ' + raw;
+
+  var ref = findBookingRef(everything);
+  var verdict = successVerdict(params, raw);
+
+  logPayment(ref, verdict, everything);
+
+  if (!ref) {
+    alertOwner('Payment callback with no booking reference',
+      'A payment callback arrived that carries no RKD-... reference. It is in the\n' +
+      'Payments tab. Match it to a booking by hand.\n\n' + everything.slice(0, 1500));
+    return { ok: false, error: 'No booking reference in payload' };
+  }
+
+  if (verdict === 'paid') {
+    var result = setPaid(ref);
+    if (!result.ok) {
+      alertOwner('Payment callback for an unknown booking: ' + ref,
+        'Payment succeeded but no booking row matches ' + ref + '.\n\n' + everything.slice(0, 1500));
+    }
+    return result;
+  }
+
+  if (verdict === 'failed') return { ok: true, ref: ref, status: 'ignored a failed payment' };
+
+  // Unrecognised shape: never assume it paid.
+  alertOwner('Payment callback needs a human: ' + ref,
+    'A callback arrived for ' + ref + ' but its success field was not recognised,\n' +
+    'so the booking is still HOLD. Check the payment in your provider, then set\n' +
+    'the row to PAID in the Bookings tab.\n\n' + everything.slice(0, 1500));
+  return { ok: false, error: 'Unrecognised status', ref: ref };
+}
+
+/** Booking references have a fixed shape, so they can be found by pattern. */
+function findBookingRef(text) {
+  var m = (text || '').match(/RKD-\d{6}-\d{4}/);
+  return m ? m[0] : null;
+}
+
+/**
+ * "paid", "failed", or "unknown". Only fields that look like a status are
+ * consulted, so a stray "1" elsewhere in the payload cannot confirm a payment.
+ */
+function successVerdict(params, raw) {
+  var PAID = ['1', 'success', 'succeeded', 'approved', 'paid', 'completed', 'ok', 'true'];
+  var FAILED = ['0', '-1', 'failed', 'failure', 'error', 'declined', 'rejected', 'cancelled', 'canceled', 'pending'];
+  var verdict = 'unknown';
+
+  Object.keys(params).forEach(function (key) {
+    var name = key.toLowerCase();
+    if (name === 'token' || name === 'action') return;
+    if (!/status|result|success|state|payment_?code|err/.test(name)) return;
+
+    var value = (params[key] === null || params[key] === undefined ? '' : params[key])
+      .toString().trim().toLowerCase();
+    if (FAILED.indexOf(value) !== -1) verdict = 'failed';
+    else if (PAID.indexOf(value) !== -1 && verdict !== 'failed') verdict = 'paid';
+  });
+
+  // Some providers post JSON rather than form fields.
+  if (verdict === 'unknown' && raw) {
+    var body = null;
+    try {
+      body = JSON.parse(raw);
+    } catch (ignored) {
+      body = null;
+    }
+    if (body && typeof body === 'object') return successVerdict(flatten(body), '');
+  }
+  return verdict;
+}
+
+/** Nested JSON flattened to dotted keys, so status fields are found at depth. */
+function flatten(obj, prefix, out) {
+  out = out || {};
+  prefix = prefix || '';
+  Object.keys(obj).forEach(function (key) {
+    var value = obj[key];
+    var path = prefix ? prefix + '.' + key : key;
+    if (value && typeof value === 'object') flatten(value, path, out);
+    else out[path] = value;
+  });
+  return out;
+}
+
+/** Every callback is kept verbatim, so a wrong guess can be traced later. */
+function logPayment(ref, verdict, payload) {
+  try {
+    var ss = SpreadsheetApp.openById(CONFIG.sheetId);
+    var sheet = ss.getSheetByName('Payments');
+    if (!sheet) {
+      sheet = ss.insertSheet('Payments');
+      sheet.appendRow(['received', 'ref', 'verdict', 'payload']);
+      sheet.setFrozenRows(1);
+    }
+    sheet.appendRow([new Date(), ref || '', verdict, payload.slice(0, 40000)]);
+  } catch (ignored) {
+    // Logging must never cost a customer their confirmed booking.
+  }
+}
+
+function alertOwner(subject, body) {
+  if (!CONFIG.notifyEmail) return;
+  try {
+    MailApp.sendEmail(CONFIG.notifyEmail, 'RKD booking: ' + subject, body);
+  } catch (ignored) {
+    // As above.
+  }
 }
 
 function bookingStatus(ref) {

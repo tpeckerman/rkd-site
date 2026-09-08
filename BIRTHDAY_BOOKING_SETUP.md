@@ -79,18 +79,35 @@ icon) → Version: New version → Deploy**. That keeps the same `/exec` URL, so
 you never touch `js/booking.js` again. A plain save in the editor does *not*
 update the live version.
 
-### Marking bookings paid automatically (optional)
+### Marking bookings paid automatically
 
-A new booking lands as `HOLD`. It becomes `PAID` when someone says so.
-
-The reliable way is a webhook, if your provider supports one:
+A new booking lands as `HOLD`. Wire up the provider's callback and it becomes
+`PAID` on its own.
 
 1. In the Apps Script editor: **Project Settings → Script properties → Add
    script property**. Name it `WEBHOOK_TOKEN`, value a long random string.
-2. Point your provider's webhook at your `/exec` URL, posting
-   `action=paid`, `token=<your token>`, and `ref=<the booking reference>`.
+2. In your provider, set the payment link's **notifyUrl** (Grow calls this the
+   server-to-server callback) to your `/exec` URL with two things on the end:
 
-Without a webhook, just open the `Bookings` tab when the money lands and type
+   ```
+   https://script.google.com/macros/s/.../exec?action=paycallback&token=YOUR_TOKEN
+   ```
+
+   The token both routes the request and proves it came from you. With Grow,
+   webhooks have to be switched on by their support team first.
+
+Nothing in the handler depends on a particular provider's field names. Every
+callback is written to a **Payments** tab exactly as it arrived, the booking
+reference is recognised by its shape (`RKD-nnnnnn-nnnn`) anywhere in the
+payload, and a booking is marked `PAID` only on an explicit success signal.
+If a callback arrives in a shape it does not recognise, the booking stays
+`HOLD` and you get an email — it will never assume a party was paid for.
+
+That last part matters on the first real payment: check the Payments tab, see
+what your provider actually sent, and tell me if the status field wasn't
+recognised. It is a one-line change to teach it.
+
+Without a callback, open the `Bookings` tab when the money lands and type
 `PAID` in the status column. At a few parties a week that takes seconds.
 
 Either way, **set the payment provider's success/return URL** to
