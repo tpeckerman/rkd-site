@@ -25,7 +25,7 @@
  */
 
 var CONFIG = {
-  // Spreadsheet that holds the Slots and Bookings tabs. Paste the long id from
+  // Spreadsheet that holds the Exceptions and Bookings tabs. Paste the long id from
   // the sheet's URL: docs.google.com/spreadsheets/d/<THIS PART>/edit
   sheetId: 'PASTE_YOUR_BOOKING_SPREADSHEET_ID_HERE',
 
