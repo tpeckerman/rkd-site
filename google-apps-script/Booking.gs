@@ -127,6 +127,9 @@ function doGet(e) {
     if (params.action === 'status') {
       return jsonOut(bookingStatus((params.ref || '').toString().trim()));
     }
+    // The page posts reservations, but falls back to GET when a browser
+    // refuses the cross-origin POST. Same handler either way.
+    if (params.action === 'reserve') return jsonOut(reserve(params));
     // Default: the list of bookable slots.
     return jsonOut({ ok: true, packages: publicPackages(), slots: availableSlots() });
   } catch (err) {
@@ -259,6 +262,20 @@ function reserve(params) {
 
   var ref;
   try {
+    // A retry (or the GET fallback after a failed POST) must not collide with
+    // the hold the first attempt already created. Same slot, same phone,
+    // still within the hold window: hand back that booking.
+    var mine = findLiveHold(date, start, phone);
+    if (mine) {
+      return {
+        ok: true,
+        ref: mine,
+        price: pkg.price,
+        holdMinutes: CONFIG.holdMinutes,
+        payUrl: payUrlFor(pkg, mine),
+      };
+    }
+
     var slot = findOpenSlot(date, start);
     if (!slot) return { ok: false, error: 'SLOT_TAKEN' };
 
@@ -295,6 +312,22 @@ function reserve(params) {
     holdMinutes: CONFIG.holdMinutes,
     payUrl: payUrlFor(pkg, ref),
   };
+}
+
+/** Reference of a still-live HOLD for this slot placed by this phone number. */
+function findLiveHold(date, start, phone) {
+  var rows = readSheet('Bookings');
+  var cutoff = new Date().getTime() - CONFIG.holdMinutes * 60 * 1000;
+
+  for (var i = 0; i < rows.length; i++) {
+    if ((rows[i][13] || '').toString().trim().toUpperCase() !== 'HOLD') continue;
+    if (asDateString(rows[i][1]) !== date) continue;
+    if (asTimeString(rows[i][2]) !== start) continue;
+    if ((rows[i][6] || '').toString().trim() !== phone) continue;
+    var created = rows[i][14] instanceof Date ? rows[i][14].getTime() : Date.parse(rows[i][14]);
+    if (created && created > cutoff) return (rows[i][0] || '').toString().trim();
+  }
+  return null;
 }
 
 function findOpenSlot(date, start) {

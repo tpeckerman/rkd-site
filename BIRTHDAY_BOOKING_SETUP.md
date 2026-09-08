@@ -15,9 +15,8 @@ only money you spend is your payment provider's cut of each payment.
 | Booking page | `book.html`, `he/book.html` | What the customer sees |
 | Page logic | `js/booking.js` | Talks to the backend |
 
-Until you finish steps 1–3 the page loads but can't show slots. Step 4
-(payments) is optional at first — see *Going live before you have a payment
-link* at the bottom.
+Steps 1–3 are done and live. Step 4 (payments) is optional — see *Going live
+before you have a payment link* at the bottom.
 
 ## 1. Create the spreadsheet
 
@@ -156,6 +155,11 @@ both slots can sell.
 
 Two people clicking the same slot at the same second is handled — the second
 one is told the slot just went and gets a refreshed list.
+
+If a browser refuses the cross-origin POST the page retries the reservation as
+a GET, which the backend accepts too. That retry is safe: re-sending the same
+slot from the same phone number returns the booking already made rather than
+making a second one.
 
 ## Things worth knowing
 

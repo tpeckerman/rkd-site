@@ -1,7 +1,7 @@
 (function () {
   // Paste the /exec URL of the Booking.gs Web App here. This is a DIFFERENT
   // deployment from the one in js/forms.js — see BIRTHDAY_BOOKING_SETUP.md.
-  var BOOKING_SCRIPT_URL = 'PASTE_YOUR_BOOKING_APPS_SCRIPT_WEB_APP_URL_HERE';
+  var BOOKING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbytRkcS4-eRS7yaXh6WaQHJ0OfeyuzBs8mtF0924l0vmai91ad5EuPLFIsUnXp8713jyg/exec';
 
   var WHATSAPP_URL = 'https://wa.me/972555002413';
 
@@ -258,8 +258,7 @@
     els.submitBtn.disabled = true;
     setFormMsg(T.holding);
 
-    fetch(BOOKING_SCRIPT_URL, { method: 'POST', body: new URLSearchParams(data) })
-      .then(function (res) { return res.json(); })
+    reserveSlot(data)
       .then(function (result) {
         if (result && result.ok) {
           showPayStep(result);
@@ -275,6 +274,25 @@
       })
       .catch(function () { setFormMsg(T.error, 'error'); })
       .finally(function () { els.submitBtn.disabled = false; });
+  }
+
+  /**
+   * Apps Script is served from another origin, and some browsers refuse the
+   * cross-origin POST outright. If that happens, send the same reservation as
+   * a GET, which the backend also accepts. The backend returns the existing
+   * hold when the same phone re-sends the same slot, so a fallback that
+   * arrives after the POST actually got through cannot double-book.
+   */
+  function reserveSlot(data) {
+    var body = new URLSearchParams(data);
+    return fetch(BOOKING_SCRIPT_URL, { method: 'POST', body: body })
+      .then(function (res) { return res.json(); })
+      .catch(function () {
+        var sep = BOOKING_SCRIPT_URL.indexOf('?') === -1 ? '?' : '&';
+        return fetch(BOOKING_SCRIPT_URL + sep + body.toString()).then(function (res) {
+          return res.json();
+        });
+      });
   }
 
   function showPayStep(result) {
