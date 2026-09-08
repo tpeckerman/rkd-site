@@ -10,6 +10,9 @@
   var T = {
     loading:      isHebrew ? 'טוען מועדים פנויים…' : 'Loading available slots…',
     chooseFirst:  isHebrew ? 'בחרו חבילה כדי לראות מועדים פנויים.' : 'Choose a package to see the available slots.',
+    pickDate:     isHebrew ? 'בחרו תאריך כדי לראות שעות פנויות.' : 'Choose a date to see the times open that day.',
+    noneOnDate:   isHebrew ? 'אין שעות פנויות בתאריך הזה.' : 'No times are open on that date.',
+    tryThese:     isHebrew ? 'התאריכים הפנויים הקרובים:' : 'Next available dates:',
     none:         isHebrew ? 'אין כרגע מועדים פנויים לחבילה הזו. שלחו לנו הודעה בוואטסאפ ונמצא לכם תאריך.'
                            : 'No open slots for this package right now. Message us on WhatsApp and we’ll find you a date.',
     failed:       isHebrew ? 'לא הצלחנו לטעון את המועדים. רעננו את הדף או שלחו לנו הודעה בוואטסאפ.'
@@ -28,11 +31,13 @@
     payManual:    isHebrew ? 'שלחו לנו את מספר ההזמנה בוואטסאפ ונשלח לכם קישור לתשלום.'
                            : 'Send us your booking reference on WhatsApp and we’ll send you a payment link.',
     bookAgain:    isHebrew ? 'להזמנה נוספת' : 'Book another slot',
+    tooManyFor:   isHebrew ? 'החבילה הזו מוגבלת ל-' : 'That package is limited to ',
+    people:       isHebrew ? 'אנשים. בחרו VIP לקבוצה גדולה יותר.' : ' people. Choose VIP for a larger group.',
     paidThanks:   isHebrew ? 'תודה! ההזמנה שלכם התקבלה. נתראה ב-RKD! 🎉'
                            : 'Thank you! Your booking is confirmed. See you at RKD! 🎉',
   };
 
-  var state = { slots: [], pkg: null, slot: null, holdTimer: null };
+  var state = { slots: [], pkg: null, date: '', slot: null, holdTimer: null };
 
   var els = {};
 
@@ -62,45 +67,90 @@
     });
   }
 
+  function datesWithSlots() {
+    var seen = {};
+    var out = [];
+    slotsForPackage().forEach(function (slot) {
+      if (!seen[slot.date]) { seen[slot.date] = true; out.push(slot.date); }
+    });
+    return out;
+  }
+
   function renderSlots() {
     els.slotGroups.innerHTML = '';
+    els.nextDates.innerHTML = '';
+
     if (!state.pkg) {
       setSlotStatus(T.chooseFirst);
+      els.datePick.hidden = true;
       return;
     }
 
-    var slots = slotsForPackage();
-    if (!slots.length) {
+    var dates = datesWithSlots();
+    if (!dates.length) {
       setSlotStatus(T.none);
+      els.datePick.hidden = true;
+      return;
+    }
+
+    // Bound the picker to the range we actually have, and land on the first
+    // open date so the common case needs no interaction at all.
+    els.datePick.hidden = false;
+    els.dateInput.min = dates[0];
+    els.dateInput.max = dates[dates.length - 1];
+    // Land on the first open date to start with, but never overrule a date the
+    // customer picked themselves — a full date has to say so, not bounce back.
+    if (!state.date) state.date = dates[0];
+    els.dateInput.value = state.date;
+
+    var forDay = slotsForPackage().filter(function (slot) { return slot.date === state.date; });
+    if (!forDay.length) {
+      setSlotStatus(T.noneOnDate);
+      renderNextDates(dates);
       return;
     }
     setSlotStatus('');
 
-    // One block per date, so a day with four slots reads as a day.
-    var byDate = {};
-    var order = [];
-    slots.forEach(function (slot) {
-      if (!byDate[slot.date]) { byDate[slot.date] = []; order.push(slot.date); }
-      byDate[slot.date].push(slot);
-    });
+    var group = document.createElement('div');
+    group.className = 'slot-group';
 
-    order.forEach(function (date) {
-      var group = document.createElement('div');
-      group.className = 'slot-group';
+    var heading = document.createElement('div');
+    heading.className = 'slot-date';
+    heading.textContent = formatDate(state.date);
+    group.appendChild(heading);
 
-      var heading = document.createElement('div');
-      heading.className = 'slot-date';
-      heading.textContent = formatDate(date);
-      group.appendChild(heading);
+    var times = document.createElement('div');
+    times.className = 'slot-times';
+    forDay.forEach(function (slot) { times.appendChild(buildSlotButton(slot)); });
+    group.appendChild(times);
 
-      var times = document.createElement('div');
-      times.className = 'slot-times';
-      byDate[date].forEach(function (slot) {
-        times.appendChild(buildSlotButton(slot));
+    els.slotGroups.appendChild(group);
+  }
+
+  /** When the chosen date is full, point at the nearest dates that aren't. */
+  function renderNextDates(dates) {
+    var upcoming = dates.filter(function (d) { return d > state.date; }).slice(0, 4);
+    if (!upcoming.length) upcoming = dates.slice(0, 4);
+    if (!upcoming.length) return;
+
+    var label = document.createElement('span');
+    label.className = 'next-dates-label';
+    label.textContent = T.tryThese;
+    els.nextDates.appendChild(label);
+
+    upcoming.forEach(function (date) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'next-date-btn';
+      btn.textContent = formatDate(date);
+      btn.addEventListener('click', function () {
+        els.dateInput.value = date;
+        state.date = date;
+        state.slot = null;
+        lock(els.stepDetails);
+        renderSlots();
       });
-      group.appendChild(times);
-
-      els.slotGroups.appendChild(group);
+      els.nextDates.appendChild(btn);
     });
   }
 
@@ -134,6 +184,26 @@
     });
 
     return btn;
+  }
+
+  /**
+   * Basic seats 16 and VIP seats 20, so the guest options above the chosen
+   * package's cap are disabled rather than silently accepted.
+   */
+  function applyGuestLimit() {
+    var input = document.querySelector('input[name="package"][value="' + state.pkg + '"]');
+    var cap = input ? Number(input.dataset.maxguests) : 0;
+    if (!cap || !els.guests) return;
+
+    Array.prototype.forEach.call(els.guests.options, function (opt) {
+      var needs = Number(opt.dataset.maxguests || 0);
+      var tooBig = needs > cap;
+      opt.disabled = tooBig;
+      // Clear a selection that the newly chosen package can no longer seat.
+      if (tooBig && opt.selected) els.guests.value = '';
+    });
+
+    els.guestNote.textContent = cap < 20 ? T.tooManyFor + cap + T.people : '';
   }
 
   function updateSummary() {
@@ -269,11 +339,16 @@
   function init() {
     els.slotStatus = document.getElementById('slot-status');
     els.slotGroups = document.getElementById('slot-groups');
+    els.nextDates = document.getElementById('next-dates');
+    els.datePick = document.querySelector('.date-pick');
+    els.dateInput = document.getElementById('slot-date');
     els.stepPackage = document.getElementById('step-package');
     els.stepSlot = document.getElementById('step-slot');
     els.stepDetails = document.getElementById('step-details');
     els.stepPay = document.getElementById('step-pay');
     els.form = document.getElementById('booking-form');
+    els.guests = document.getElementById('bf-guests');
+    els.guestNote = document.getElementById('guest-note');
     els.formMsg = document.getElementById('booking-form-msg');
     els.summary = document.getElementById('booking-summary');
     els.payRef = document.getElementById('pay-ref');
@@ -304,9 +379,18 @@
         });
         unlock(els.stepSlot);
         lock(els.stepDetails);
+        applyGuestLimit();
         renderSlots();
         updateSummary();
       });
+    });
+
+    els.dateInput.addEventListener('change', function () {
+      state.date = els.dateInput.value;
+      state.slot = null;
+      lock(els.stepDetails);
+      renderSlots();
+      updateSummary();
     });
 
     els.form.addEventListener('submit', submitBooking);

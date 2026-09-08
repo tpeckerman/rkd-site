@@ -767,6 +767,48 @@ body.rtl .form-field { text-align: right; }
   color: var(--muted); font-size: 0.86rem; line-height: 1.55;
 }
 
+/* ── Date picker ── */
+.date-pick { margin-bottom: 18px; }
+.date-pick label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.date-pick input {
+  width: 100%;
+  max-width: 260px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.date-pick input:focus { outline: none; border-color: var(--blue); }
+/* The native picker indicator is near-black on our dark field otherwise. */
+.date-pick input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+.next-dates { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+.next-dates-label { color: var(--muted); font-size: 0.85rem; }
+.next-date-btn {
+  padding: 7px 13px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--blue);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--ease);
+}
+.next-date-btn:hover { border-color: var(--blue); }
+
 /* ── Slot picker ── */
 .slot-group { margin-bottom: 22px; }
 .slot-group:last-child { margin-bottom: 0; }

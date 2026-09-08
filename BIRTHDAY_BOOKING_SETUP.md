@@ -10,8 +10,8 @@ only money you spend is your payment provider's cut of each payment.
 
 | Piece | File | What it does |
 |---|---|---|
-| Slot list + bookings | a Google Sheet you create | Your control panel |
-| Backend | `google-apps-script/Booking.gs` | Serves open slots, holds a slot, records the booking |
+| Closures + extra slots | a Google Sheet you create | Your control panel |
+| Backend | `google-apps-script/Booking.gs` | Holds the weekly schedule, serves open slots, records bookings |
 | Booking page | `book.html`, `he/book.html` | What the customer sees |
 | Page logic | `js/booking.js` | Talks to the backend |
 
@@ -39,8 +39,9 @@ those cannot live in the same project.
    While you're there, set `notifyEmail` to your address so you get an email
    the moment someone books.
 4. In the toolbar, pick the function **setupBookingSheet** and press **Run**.
-   Authorize it when Google asks. This creates the `Slots` and `Bookings` tabs
-   with their headers and three example slots.
+   Authorize it when Google asks. This creates the `Exceptions` and `Bookings`
+   tabs with their headers and three example rows (delete them once you've seen
+   the format).
 5. **Deploy → New deployment → Web app**
    - Execute as: **Me**
    - Who has access: **Anyone**
@@ -60,13 +61,13 @@ with your real `/exec` URL, then commit and push. Both `book.html` and
 ## 4. Connect payments
 
 You need **one payment link per package**, because payment links carry a fixed
-amount: one for NIS 450, one for NIS 650. Whichever provider you use, create
+amount: one for NIS 450 (Basic), one for NIS 750 (VIP). Whichever provider you use, create
 both links and paste them into the `PACKAGES` block near the top of
 `Booking.gs`:
 
 ```js
-standard: { ..., payUrl: 'https://your-provider.example/pay/abc123' },
-vip:      { ..., payUrl: 'https://your-provider.example/pay/def456' },
+basic: { ..., payUrl: 'https://your-provider.example/pay/abc123' },
+vip:   { ..., payUrl: 'https://your-provider.example/pay/def456' },
 ```
 
 If the provider lets you pass your own reference through the link, put `{REF}`
@@ -97,36 +98,54 @@ Either way, **set the payment provider's success/return URL** to
 `https://rkdzichron.com/book.html?paid=1` so customers land back on your site
 with a thank-you.
 
-## Opening and closing slots
+## Your weekly schedule
 
-This is the part you'll actually use week to week. Go to the **Slots** tab and
-add a row per slot you want to offer:
+Slots come from a fixed weekly pattern, so a normal week needs no upkeep at
+all:
 
-| date | start | status | packages | note |
-|---|---|---|---|---|
-| `2026-10-16` | `16:00` | `open` | | Friday afternoon |
-| `2026-10-16` | `18:00` | `open` | `standard` | short evening slot |
-| `2026-10-17` | `11:00` | `closed` | | |
+| Day | Start times |
+|---|---|
+| Sunday – Thursday | 14:00, 16:00, 18:00 |
+| Friday | 11:00, 13:00 |
+| Saturday | 11:00, 13:00, 15:00, 17:00 |
 
-- **date** — `YYYY-MM-DD`. A real date cell works too.
-- **start** — 24-hour `HH:MM`.
-- **status** — `open` to offer it. Anything else (`closed`, `held`) hides it.
-- **packages** — leave blank to accept either package. Put `standard` to block
-  VIP from a slot that can't run the full 1.5 hours.
-- **note** — optional, shows under the time on the button. It appears exactly
-  as you type it on both the English and Hebrew pages, so keep it short or
-  write it in whichever language most of your customers read.
+A customer picks a date, sees the times still open that day, and picks one.
+**Times that are already booked simply aren't offered.**
 
-Changes take effect immediately; there's nothing to redeploy or push.
+To change the pattern itself, edit `WEEKLY_SCHEDULE` at the top of
+`Booking.gs` and redeploy (**Deploy → Manage deployments → pencil → New
+version**). The keys are days of the week, `0` for Sunday through `6` for
+Saturday; leave a day out to offer nothing that day.
 
-**Space your slots for the longest package you allow in them.** The system does
-not know a VIP party runs 1.5 hours — if you open 16:00 and 17:00 and let VIP
-into both, you can sell yourself an overlap. Either space them far enough
-apart, or mark the tight ones `standard`.
+## One-off changes: the Exceptions tab
+
+Anything that deviates from the usual week goes in the **Exceptions** tab, and
+takes effect immediately — nothing to redeploy or push.
+
+| date | start | action | note |
+|---|---|---|---|
+| `2026-10-16` | | `close` | closed all day — private event |
+| `2026-10-17` | `16:00` | `close` | just this one time is unavailable |
+| `2026-10-18` | `20:00` | `open` | extra late slot |
+
+- **`close` with no start** — shuts the whole date.
+- **`close` with a start** — removes just that one time.
+- **`open` with a start** — adds a time that isn't in the weekly pattern.
+- **note** — optional; on an `open` row it shows under the time on the button.
+  It appears exactly as you type it on both the English and Hebrew pages.
+
+Dates are `YYYY-MM-DD` (a real date cell works too) and times are 24-hour
+`HH:MM`.
+
+**Space your pattern by at least the party length.** Every party is 1 hour of
+private access, and the system does not know how long you need between parties
+to reset. The times above leave a 2-hour gap; if you tighten them, remember
+both slots can sell.
 
 ## How a booking actually goes
 
-1. Parent picks a package, then a slot, then fills in their details.
+1. Parent picks a package, then a date, then one of the times still open
+   that day, then fills in their details.
 2. The slot is **held for 20 minutes** (`CONFIG.holdMinutes`) and a `HOLD` row
    appears in `Bookings`. You get an email.
 3. They're sent to the payment link for that package.
@@ -142,6 +161,8 @@ one is told the slot just went and gets a refreshed list.
 
 - **Slots are hidden inside 24 hours** (`CONFIG.minNoticeHours`) so nobody
   books a party for tonight. Raise or lower it to taste.
+- **A booked time stops being offered** the moment it is held, and comes back
+  by itself if the hold expires unpaid.
 - **Only 120 days ahead are shown** (`CONFIG.maxDaysAhead`).
 - **The `Bookings` tab is your record.** Never delete a `PAID` row for a party
   that hasn't happened — that frees the slot for someone else to book.
@@ -161,11 +182,12 @@ touching the front-end.
 
 ## Before you publish
 
-- **Confirm what the VIP package includes.** The NIS 650 feature list is
-  marked with an `EDIT ME` comment in both `book.html` and `he/book.html` — the
-  two lists must say the same thing. It's also summarised on `birthday.html`
-  and `he/birthday.html`.
-- Your party page says *full payment is required to confirm your reservation*
-  and *cancellations 48 hours ahead are refunded minus NIS 100*. The booking
-  flow charges the full amount, which matches — but re-read both pages once
-  with the new VIP price in mind.
+Package contents and prices come from the RKD B-DAY flyer: Basic NIS 450 for up
+to 16 people, VIP NIS 750 for up to 20 with unlimited claw machine and a
+giveaway package. Both run 1 hour of private access. The recommended age is
+6 and up.
+
+Prices live in two places that must agree — the `PACKAGES` block in
+`Booking.gs` (what the customer is charged) and the package cards in
+`book.html` / `he/book.html` (what they're shown). Change one, change the
+other.

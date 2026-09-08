@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <title>Book a Birthday Party Online | RKD Arcade Zichron Yaakov</title>
-  <meta name="description" content="Book your child's birthday party at RKD Arcade in Zichron Yaakov online — pick an available slot, choose the NIS 450 Standard or NIS 650 VIP package, and pay to confirm.">
+  <meta name="description" content="Book your child's birthday party at RKD Arcade in Zichron Yaakov online — pick an available slot, choose the NIS 450 Basic or NIS 750 VIP package, and pay to confirm.">
   <link rel="canonical" href="https://rkdzichron.com/book.html">
   <link rel="alternate" hreflang="en" href="https://rkdzichron.com/book.html">
   <link rel="alternate" hreflang="he" href="https://rkdzichron.com/he/book.html">
@@ -84,32 +84,29 @@
 
         <div class="pkg-grid">
           <label class="pkg-card">
-            <input type="radio" name="package" value="standard" data-price="450" data-label="Standard">
+            <input type="radio" name="package" value="basic" data-price="450" data-label="Basic" data-maxguests="16">
             <div class="pkg-card-inner">
-              <div class="pkg-name">Standard</div>
+              <div class="pkg-name">Basic</div>
               <div class="pkg-price">NIS 450 <small>up to 16 people, adults included</small></div>
               <ul class="pkg-list">
-                <li><span class="chk">&#10003;</span> 1 hour of private VIP access to RKD</li>
-                <li><span class="chk">&#10003;</span> Unlimited play on every machine (except the 2 claw machines)</li>
-                <li><span class="chk">&#10003;</span> A dedicated card with 60 claw machine games</li>
-                <li><span class="chk">&#10003;</span> Reserved outdoor picnic table for food &amp; decorations</li>
+                <li><span class="chk">&#10003;</span> 1 hour of private access to RKD</li>
+                <li><span class="chk">&#10003;</span> Unlimited play for each guest on all machines, except the 2 claw machines</li>
+                <li><span class="chk">&#10003;</span> A separate card with 60 claw machine games (NIS 240 value)</li>
+                <li><span class="chk">&#10003;</span> Picnic table reserved outside for your food, drinks &amp; decorations &mdash; use it before, during and after the hour</li>
               </ul>
             </div>
           </label>
 
-          <!-- EDIT ME: confirm exactly what the VIP package includes before this
-               page goes live. The prices and slot logic work regardless; only
-               this list and its Hebrew twin in he/book.html need your wording. -->
           <label class="pkg-card">
-            <input type="radio" name="package" value="vip" data-price="650" data-label="VIP">
+            <input type="radio" name="package" value="vip" data-price="750" data-label="VIP" data-maxguests="20">
             <div class="pkg-card-inner">
               <div class="pkg-name">VIP</div>
-              <div class="pkg-price">NIS 650 <small>up to 16 people, adults included</small></div>
+              <div class="pkg-price">NIS 750 <small>up to 20 people, adults included</small></div>
               <ul class="pkg-list">
-                <li><span class="chk">&#10003;</span> 1.5 hours of private VIP access to RKD</li>
-                <li><span class="chk">&#10003;</span> Unlimited play on every machine (except the 2 claw machines)</li>
-                <li><span class="chk">&#10003;</span> A dedicated card with 120 claw machine games</li>
-                <li><span class="chk">&#10003;</span> Two reserved outdoor picnic tables for food &amp; decorations</li>
+                <li><span class="chk">&#10003;</span> Everything in the Basic package, plus:</li>
+                <li><span class="chk">&#10003;</span> Entry for up to 20 people, adults included</li>
+                <li><span class="chk">&#10003;</span> Unlimited claw machine!</li>
+                <li><span class="chk">&#10003;</span> A special RKD giveaway package for the birthday boy or girl</li>
               </ul>
             </div>
           </label>
@@ -119,8 +116,15 @@
       <!-- Step 2 — slot -->
       <div class="booking-step is-locked" id="step-slot">
         <div class="booking-step-head"><span class="booking-step-num">2</span> Pick your slot</div>
+
+        <div class="date-pick">
+          <label for="slot-date">Choose a date</label>
+          <input type="date" id="slot-date">
+        </div>
+
         <div class="booking-note" id="slot-status">Choose a package to see the available slots.</div>
         <div id="slot-groups"></div>
+        <div class="next-dates" id="next-dates"></div>
       </div>
 
       <!-- Step 3 — details -->
@@ -147,16 +151,18 @@
           </div>
           <div class="form-field">
             <label for="bf-age">Child&rsquo;s age</label>
-            <input type="number" id="bf-age" name="age" min="1" max="18">
+            <input type="number" id="bf-age" name="age" min="6" max="18">
           </div>
           <div class="form-field">
             <label for="bf-guests">Total guests, adults included *</label>
             <select id="bf-guests" name="guests" required>
               <option value="">Select&hellip;</option>
-              <option>Up to 8</option>
-              <option>9&ndash;12</option>
-              <option>13&ndash;16</option>
+              <option data-maxguests="8">Up to 8</option>
+              <option data-maxguests="12">9&ndash;12</option>
+              <option data-maxguests="16">13&ndash;16</option>
+              <option data-maxguests="20">17&ndash;20</option>
             </select>
+            <div class="booking-note" id="guest-note" style="margin-top:6px; font-size:0.8rem;"></div>
           </div>
           <div class="form-field">
             <label for="bf-notes">Anything else we should know?</label>

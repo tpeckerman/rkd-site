@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="../images/favicon.png">
   <title>הזמנת יום הולדת אונליין | RKD ארקייד זכרון יעקב</title>
-  <meta name="description" content="הזמינו יום הולדת ב-RKD ארקייד בזכרון יעקב אונליין — בחרו מועד פנוי, חבילה רגילה ב-450 ₪ או VIP ב-650 ₪, ושלמו לאישור ההזמנה.">
+  <meta name="description" content="הזמינו יום הולדת ב-RKD ארקייד בזכרון יעקב אונליין — בחרו מועד פנוי, חבילה בסיסית ב-450 ₪ או VIP ב-750 ₪, ושלמו לאישור ההזמנה.">
   <link rel="canonical" href="https://rkdzichron.com/he/book.html">
   <link rel="alternate" hreflang="en" href="https://rkdzichron.com/book.html">
   <link rel="alternate" hreflang="he" href="https://rkdzichron.com/he/book.html">
@@ -84,31 +84,29 @@
 
         <div class="pkg-grid">
           <label class="pkg-card">
-            <input type="radio" name="package" value="standard" data-price="450" data-label="רגיל">
+            <input type="radio" name="package" value="basic" data-price="450" data-label="בסיסי" data-maxguests="16">
             <div class="pkg-card-inner">
-              <div class="pkg-name">רגיל</div>
+              <div class="pkg-name">בסיסי</div>
               <div class="pkg-price">450 ₪ <small>עד 16 אנשים, כולל מבוגרים</small></div>
               <ul class="pkg-list">
-                <li><span class="chk">&#10003;</span> שעה אחת של גישה פרטית VIP ל-RKD</li>
-                <li><span class="chk">&#10003;</span> משחק בלתי מוגבל על כל המכונות (למעט 2 מכונות הכדורים)</li>
-                <li><span class="chk">&#10003;</span> כרטיס ייעודי עם 60 משחקי מכונת כדורים</li>
-                <li><span class="chk">&#10003;</span> שולחן פיקניק שמור בחוץ לאוכל וקישוטים</li>
+                <li><span class="chk">&#10003;</span> שעה אחת של גישה פרטית ל-RKD</li>
+                <li><span class="chk">&#10003;</span> משחק בלתי מוגבל לכל אורח על כל המכונות, למעט 2 מכונות הכדורים</li>
+                <li><span class="chk">&#10003;</span> כרטיס נפרד עם 60 משחקי מכונת כדורים (שווי 240 ₪)</li>
+                <li><span class="chk">&#10003;</span> שולחן פיקניק שמור בחוץ לאוכל, שתייה וקישוטים &mdash; לשימושכם לפני, במהלך ואחרי השעה</li>
               </ul>
             </div>
           </label>
 
-          <!-- EDIT ME: confirm exactly what the VIP package includes before this
-               page goes live. This list must match the English one in book.html. -->
           <label class="pkg-card">
-            <input type="radio" name="package" value="vip" data-price="650" data-label="VIP">
+            <input type="radio" name="package" value="vip" data-price="750" data-label="VIP" data-maxguests="20">
             <div class="pkg-card-inner">
               <div class="pkg-name">VIP</div>
-              <div class="pkg-price">650 ₪ <small>עד 16 אנשים, כולל מבוגרים</small></div>
+              <div class="pkg-price">750 ₪ <small>עד 20 אנשים, כולל מבוגרים</small></div>
               <ul class="pkg-list">
-                <li><span class="chk">&#10003;</span> שעה וחצי של גישה פרטית VIP ל-RKD</li>
-                <li><span class="chk">&#10003;</span> משחק בלתי מוגבל על כל המכונות (למעט 2 מכונות הכדורים)</li>
-                <li><span class="chk">&#10003;</span> כרטיס ייעודי עם 120 משחקי מכונת כדורים</li>
-                <li><span class="chk">&#10003;</span> שני שולחנות פיקניק שמורים בחוץ לאוכל וקישוטים</li>
+                <li><span class="chk">&#10003;</span> כל מה שכלול בחבילה הבסיסית, ובנוסף:</li>
+                <li><span class="chk">&#10003;</span> כניסה לעד 20 אנשים, כולל מבוגרים</li>
+                <li><span class="chk">&#10003;</span> מכונת כדורים ללא הגבלה!</li>
+                <li><span class="chk">&#10003;</span> חבילת מתנה מיוחדת של RKD לחתן/כלת יום ההולדת</li>
               </ul>
             </div>
           </label>
@@ -118,8 +116,15 @@
       <!-- Step 2 — slot -->
       <div class="booking-step is-locked" id="step-slot">
         <div class="booking-step-head"><span class="booking-step-num">2</span> בחרו מועד</div>
+
+        <div class="date-pick">
+          <label for="slot-date">בחרו תאריך</label>
+          <input type="date" id="slot-date">
+        </div>
+
         <div class="booking-note" id="slot-status">בחרו חבילה כדי לראות מועדים פנויים.</div>
         <div id="slot-groups"></div>
+        <div class="next-dates" id="next-dates"></div>
       </div>
 
       <!-- Step 3 — details -->
@@ -146,16 +151,18 @@
           </div>
           <div class="form-field">
             <label for="bf-age">גיל</label>
-            <input type="number" id="bf-age" name="age" min="1" max="18">
+            <input type="number" id="bf-age" name="age" min="6" max="18">
           </div>
           <div class="form-field">
             <label for="bf-guests">מספר אורחים כולל מבוגרים *</label>
             <select id="bf-guests" name="guests" required>
               <option value="">בחרו&hellip;</option>
-              <option>עד 8</option>
-              <option>9&ndash;12</option>
-              <option>13&ndash;16</option>
+              <option data-maxguests="8">עד 8</option>
+              <option data-maxguests="12">9&ndash;12</option>
+              <option data-maxguests="16">13&ndash;16</option>
+              <option data-maxguests="20">17&ndash;20</option>
             </select>
+            <div class="booking-note" id="guest-note" style="margin-top:6px; font-size:0.8rem;"></div>
           </div>
           <div class="form-field">
             <label for="bf-notes">משהו נוסף שכדאי שנדע?</label>

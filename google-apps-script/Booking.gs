@@ -6,19 +6,22 @@
  * forms. Two doPost() functions cannot live in one project. See
  * ../BIRTHDAY_BOOKING_SETUP.md for the full walkthrough.
  *
- * The party slots live in a Google Sheet you control, so opening or closing a
- * date never requires a code change. Run setupBookingSheet() once from the
- * editor and it creates both tabs with their headers:
+ * Slots come from the fixed weekly pattern in WEEKLY_SCHEDULE below, so the
+ * normal week needs no upkeep at all. One-off changes — closing a date, adding
+ * a time that isn't in the pattern — go in the Exceptions tab of the sheet, no
+ * code change needed. Run setupBookingSheet() once from the editor and it
+ * creates both tabs with their headers:
  *
- *   Slots    columns:  A date | B start | C status | D packages | E note
- *   Bookings columns:  A ref | B date | C start | D package | E price |
- *                      F parent | G phone | H email | I child | J age |
- *                      K guests | L notes | M language | N status |
- *                      O created | P paid
+ *   Exceptions columns:  A date | B start | C action | D note
+ *   Bookings   columns:  A ref | B date | C start | D package | E price |
+ *                        F parent | G phone | H email | I child | J age |
+ *                        K guests | L notes | M language | N status |
+ *                        O created | P paid
  *
  * A slot is taken when a Bookings row for the same date+start is PAID, or is a
- * HOLD created less than CONFIG.holdMinutes ago. Expired holds free their slot
- * automatically — no cleanup trigger is required for correctness.
+ * HOLD created less than CONFIG.holdMinutes ago. Taken slots stop being
+ * offered. Expired holds free their slot automatically — no cleanup trigger is
+ * required for correctness.
  */
 
 var CONFIG = {
@@ -50,18 +53,38 @@ var CONFIG = {
  * payment lands next to the right row.
  */
 var PACKAGES = {
-  standard: {
-    label: 'Standard',
-    labelHe: 'רגיל',
+  basic: {
+    label: 'Basic',
+    labelHe: 'בסיסי',
     price: 450,
-    payUrl: 'PASTE_YOUR_STANDARD_PAYMENT_LINK_HERE',
+    maxGuests: 16,
+    payUrl: 'PASTE_YOUR_BASIC_PAYMENT_LINK_HERE',
   },
   vip: {
     label: 'VIP',
     labelHe: 'VIP',
-    price: 650,
+    price: 750,
+    maxGuests: 20,
     payUrl: 'PASTE_YOUR_VIP_PAYMENT_LINK_HERE',
   },
+};
+
+/**
+ * The weekly pattern of party start times. The key is the day of the week
+ * (0 = Sunday through 6 = Saturday); the value is the times offered that day.
+ * Editing this changes the schedule from next lookup onward — but it is code,
+ * so a one-off closure or an extra time belongs in the Exceptions tab instead.
+ *
+ * Leave a day out entirely (or give it an empty list) to offer nothing that day.
+ */
+var WEEKLY_SCHEDULE = {
+  0: ['14:00', '16:00', '18:00'], // Sunday
+  1: ['14:00', '16:00', '18:00'], // Monday
+  2: ['14:00', '16:00', '18:00'], // Tuesday
+  3: ['14:00', '16:00', '18:00'], // Wednesday
+  4: ['14:00', '16:00', '18:00'], // Thursday
+  5: ['11:00', '13:00'],          // Friday
+  6: ['11:00', '13:00', '15:00', '17:00'], // Saturday
 };
 
 /* ─────────────────────────── one-time setup ─────────────────────────── */
@@ -74,13 +97,14 @@ var PACKAGES = {
 function setupBookingSheet() {
   var ss = SpreadsheetApp.openById(CONFIG.sheetId);
 
-  var slots = ss.getSheetByName('Slots') || ss.insertSheet('Slots');
-  if (slots.getLastRow() === 0) {
-    slots.appendRow(['date', 'start', 'status', 'packages', 'note']);
-    slots.appendRow(['2026-10-16', '16:00', 'open', '', 'Friday afternoon']);
-    slots.appendRow(['2026-10-16', '18:00', 'open', 'standard', 'short evening slot']);
-    slots.appendRow(['2026-10-17', '11:00', 'open', '', '']);
-    slots.setFrozenRows(1);
+  var ex = ss.getSheetByName('Exceptions') || ss.insertSheet('Exceptions');
+  if (ex.getLastRow() === 0) {
+    ex.appendRow(['date', 'start', 'action', 'note']);
+    // Examples of the three things this tab can do. Delete these rows.
+    ex.appendRow(['2026-10-16', '', 'close', 'closed all day — private event']);
+    ex.appendRow(['2026-10-17', '16:00', 'close', 'just this one time is unavailable']);
+    ex.appendRow(['2026-10-18', '20:00', 'open', 'extra late slot, not in the usual week']);
+    ex.setFrozenRows(1);
   }
 
   var bookings = ss.getSheetByName('Bookings') || ss.insertSheet('Bookings');
@@ -92,7 +116,7 @@ function setupBookingSheet() {
     bookings.setFrozenRows(1);
   }
 
-  return 'Slots and Bookings tabs are ready.';
+  return 'Exceptions and Bookings tabs are ready.';
 }
 
 /* ───────────────────────────── endpoints ───────────────────────────── */
@@ -123,37 +147,74 @@ function doPost(e) {
 /* ──────────────────────────── slot reading ──────────────────────────── */
 
 function availableSlots() {
-  var rows = readSheet('Slots');
   var taken = takenSlotKeys();
+  var ex = readExceptions();
   var now = new Date();
   var earliest = new Date(now.getTime() + CONFIG.minNoticeHours * 3600 * 1000);
   var latest = new Date(now.getTime() + CONFIG.maxDaysAhead * 86400 * 1000);
   var out = [];
+  var seen = {};
 
-  for (var i = 0; i < rows.length; i++) {
-    var row = rows[i];
-    var date = asDateString(row[0]);
-    var start = asTimeString(row[1]);
-    if (!date || !start) continue;
+  for (var day = 0; day <= CONFIG.maxDaysAhead; day++) {
+    var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + day);
+    var date = asDateString(d);
+    if (ex.closedDates[date]) continue;
 
-    var status = (row[2] || 'open').toString().trim().toLowerCase();
-    if (status && status !== 'open') continue;
+    // The usual week, plus any extra times opened for this date specifically.
+    var times = (WEEKLY_SCHEDULE[d.getDay()] || []).concat(ex.extra[date] || []);
 
-    var when = parseSlotDate(date, start);
-    if (!when || when < earliest || when > latest) continue;
-    if (taken[slotKey(date, start)]) continue;
+    for (var i = 0; i < times.length; i++) {
+      var start = asTimeString(times[i]);
+      if (!start) continue;
 
-    out.push({
-      date: date,
-      start: start,
-      packages: parsePackages(row[3]),
-      note: (row[4] || '').toString().trim(),
-    });
+      var key = slotKey(date, start);
+      if (ex.closedSlots[key] || taken[key]) continue;
+      // A time can appear in both the pattern and the extras; offer it once.
+      if (seen[key]) continue;
+
+      var when = parseSlotDate(date, start);
+      if (!when || when < earliest || when > latest) continue;
+
+      seen[key] = true;
+      out.push({ date: date, start: start, note: ex.notes[key] || '' });
+    }
   }
 
   out.sort(function (a, b) {
     return a.date === b.date ? a.start.localeCompare(b.start) : a.date.localeCompare(b.date);
   });
+  return out;
+}
+
+/**
+ * The Exceptions tab, which overrides WEEKLY_SCHEDULE for particular dates:
+ *
+ *   action "close" with no start  — the whole date is closed
+ *   action "close" with a start   — just that one slot is unavailable
+ *   action "open"  with a start   — an extra slot not in the weekly pattern
+ */
+function readExceptions() {
+  var rows = readSheet('Exceptions');
+  var out = { closedDates: {}, closedSlots: {}, extra: {}, notes: {} };
+
+  for (var i = 0; i < rows.length; i++) {
+    var date = asDateString(rows[i][0]);
+    if (!date) continue;
+    var start = asTimeString(rows[i][1]);
+    var action = (rows[i][2] || 'close').toString().trim().toLowerCase();
+    var note = (rows[i][3] || '').toString().trim();
+
+    if (action === 'open') {
+      if (!start) continue;
+      if (!out.extra[date]) out.extra[date] = [];
+      out.extra[date].push(start);
+      if (note) out.notes[slotKey(date, start)] = note;
+    } else {
+      // Anything that is not "open" closes: close, closed, blocked, x...
+      if (start) out.closedSlots[slotKey(date, start)] = true;
+      else out.closedDates[date] = true;
+    }
+  }
   return out;
 }
 
@@ -200,9 +261,6 @@ function reserve(params) {
   try {
     var slot = findOpenSlot(date, start);
     if (!slot) return { ok: false, error: 'SLOT_TAKEN' };
-    if (slot.packages.length && slot.packages.indexOf(pkgKey) === -1) {
-      return { ok: false, error: 'SLOT_TAKEN' };
-    }
 
     ref = makeRef(date);
     SpreadsheetApp.openById(CONFIG.sheetId).getSheetByName('Bookings').appendRow([
@@ -355,7 +413,12 @@ function readSheet(name) {
 function publicPackages() {
   var out = {};
   Object.keys(PACKAGES).forEach(function (key) {
-    out[key] = { label: PACKAGES[key].label, labelHe: PACKAGES[key].labelHe, price: PACKAGES[key].price };
+    out[key] = {
+      label: PACKAGES[key].label,
+      labelHe: PACKAGES[key].labelHe,
+      price: PACKAGES[key].price,
+      maxGuests: PACKAGES[key].maxGuests,
+    };
   });
   return out;
 }
