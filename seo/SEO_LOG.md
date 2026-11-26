@@ -106,3 +106,21 @@ Owner relayed a suggestion (from asking Gemini about similar agent setups) to ad
 - Added "team-building outing" / "פעילויות גיבוש בזכרון יעקב" to `group-rates.html` / `he/group-rates.html`'s intro copy — a true repositioning of the existing group-visit offering (not a new claimed service), alongside the school-trip/family-reunion framing already there.
 
 **Still open / needs owner action:** unchanged from Run 4, plus: the other 19 candidates from this run are logged in the tracker for future runs to consider (notably the "for adults"/"for couples" angle, which could suit the existing air hockey tournament page).
+
+## Run 6 — 2026-11-26
+
+Demo/test run at the owner's request, to show the full loop end-to-end: search → real rank → fix → redeploy → re-check.
+
+**Keyword tracker summary:** 0 promoted, 0 new opportunities, 16 still targeting, 27 already page 1. (Same 90-day data window as Run 5 — too soon since the last fetch for Google to have recrawled anything; the 16 "still targeting" queries are the same ones from Run 4/5, now correctly carried forward by the tracker instead of re-appearing as "new.")
+
+**Two more real queries acted on this run** (from the "still targeting" list, not yet touched in prior runs):
+- "indoor fun places for kids" / "games and arcades" (positions 15 / 14): the word "indoor" didn't appear anywhere on the site despite RKD genuinely being an indoor venue — added "an indoor play spot" (EN) / "משחקייה מקורה" (HE) to the homepage About section.
+- "משחקייה" / "משחקייה לילדים" (play center for kids, position 62, and also independently surfaced by Run 5's autocomplete expansion): added "משחקייה" as a Hebrew synonym alongside "ארקייד" in the same homepage edit above.
+
+**Flagged, not acted on (needs owner confirmation):**
+- Three "escape room" queries ("חדר בריחה בזכרון", "חדר בריחה זכרון", "חדרי בריחה זכרון יעקב", positions 49–62): RKD is an arcade, not an escape room — unless the business actually also offers an escape-room feature, this is a different business category and not worth chasing.
+- "יום הולדת גיימינג פתח תקווה" (birthday gaming in Petah Tikva, position 21): Petah Tikva is a different city entirely — likely Google surfacing a tangentially related page, not a realistic target.
+
+**On re-running immediately after the fix:** the rank numbers above are unchanged from Run 5 (same real data, same 90-day window) — that's expected. Google needs real time (days to weeks) to recrawl the updated pages and re-rank them; an immediate re-check cannot show movement yet. The next genuine checkpoint is the scheduled Monday run, or any manual run from here forward — if "indoor"/"משחקייה"-related queries climb or start getting more impressions in future runs, that's the fix working.
+
+**Still open / needs owner action:** unchanged from Run 5, plus the escape-room and Petah Tikva questions above.
