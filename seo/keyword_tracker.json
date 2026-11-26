@@ -122,6 +122,15 @@
       "promoted_date": "2026-11-26",
       "status": "page1"
     },
+    "best things to do in zichron yaakov": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "fun activities to do": {
       "best_position": 1,
       "current_impressions": 1,
@@ -143,6 +152,15 @@
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
       "status": "page1"
+    },
+    "fun things to do in zichron yaakov": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
     },
     "games and arcades": {
       "best_position": 14,
@@ -232,6 +250,42 @@
       "promoted_date": "2026-11-26",
       "status": "page1"
     },
+    "things to do in zichron yaakov": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "things to do in zichron yaakov today": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "things to see in zichron yaakov": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "where is zichron yaakov in israel": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "with kids": {
       "best_position": 12,
       "current_impressions": 1,
@@ -242,6 +296,15 @@
       "last_checked": "2026-11-26",
       "promoted_date": null,
       "status": "targeting"
+    },
+    "zichron yaakov kids": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
     },
     "אטרקציה בזכרון יעקב": {
       "best_position": 2,
@@ -265,6 +328,33 @@
       "promoted_date": "2026-11-26",
       "status": "page1"
     },
+    "אטרקציות בזכרון יעקב לזוגות": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "אטרקציות בזכרון יעקב לילדים": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "אטרקציות בזכרון יעקב למבוגרים": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "אטרקציות לילדים בזכרון": {
       "best_position": 54,
       "current_impressions": 1,
@@ -275,6 +365,24 @@
       "last_checked": "2026-11-26",
       "promoted_date": null,
       "status": "targeting"
+    },
+    "אטרקציות לילדים בזכרון יעקב והסביבה": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "אטרקציות למשפחה בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
     },
     "באזור זכרון יעקב": {
       "best_position": 1,
@@ -408,6 +516,24 @@
       "promoted_date": null,
       "status": "targeting"
     },
+    "משחקיה חדשה בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "משחקיה לילדים בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "משחקייה לילדים": {
       "best_position": 62,
       "current_impressions": 1,
@@ -462,6 +588,60 @@
       "last_checked": "2026-11-26",
       "promoted_date": null,
       "status": "targeting"
+    },
+    "פעילויות בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "פעילויות בזכרון יעקב והסביבה": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "פעילויות בזכרון יעקב לילדים": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "פעילויות גיבוש בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "פעילויות לילדים בזכרון יעקב והסביבה": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "פעילויות סוכות בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
     },
     "פעילות לילדים": {
       "best_position": 68,
