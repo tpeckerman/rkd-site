@@ -1,12 +1,92 @@
 {
+  "changes_log": [
+    {
+      "date": "2026-11-26",
+      "description": "Fixed H1 to singular form matching the real query (was plural)",
+      "page": "birthday.html / he/birthday.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/21",
+      "query": "מסיבת יום הולדת לילדים",
+      "run": 4
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added the exact phrase to the page tagline (was missing)",
+      "page": "air-hockey.html / he/air-hockey.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/21",
+      "query": "air hockey arcade",
+      "run": 4
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added 'video games' as a synonym for 'arcade games'",
+      "page": "index.html / he/index.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/21",
+      "query": "משחקי וידאו לילדים בזיכרון יעקב",
+      "run": 4
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added team-building framing to the existing group-visit offering",
+      "page": "group-rates.html / he/group-rates.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/22",
+      "query": "פעילויות גיבוש בזכרון יעקב",
+      "run": 5
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added 'indoor' descriptor (was missing entirely)",
+      "page": "index.html / he/index.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/23",
+      "query": "indoor fun places for kids",
+      "run": 6
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added 'משחקייה' as a Hebrew synonym for 'ארקייד'",
+      "page": "index.html / he/index.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/23",
+      "query": "משחקייה לילדים",
+      "run": 6
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added to homepage opening hook sentence (EN)",
+      "page": "index.html / he/index.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/24",
+      "query": "kids activities zichron yaakov",
+      "run": 7
+    },
+    {
+      "date": "2026-11-26",
+      "description": "Added to homepage opening hook sentence (HE)",
+      "page": "index.html / he/index.html",
+      "pr_link": "https://github.com/tpeckerman/rkd-site/pull/24",
+      "query": "מה לעשות עם ילדים בזכרון יעקב",
+      "run": 7
+    }
+  ],
   "last_updated": "2026-11-26",
   "queries": {
     "air hockey arcade": {
       "best_position": 13,
       "current_impressions": 2,
       "current_position": 13,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 4
+        }
+      ],
       "first_position": 13,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 2,
+          "position": 13,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -18,6 +98,14 @@
       "current_position": 4.476190476190476,
       "first_position": 4.476190476190476,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 21,
+          "position": 4.476190476190476,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -29,6 +117,14 @@
       "current_position": 8,
       "first_position": 8,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 8,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -40,6 +136,14 @@
       "current_position": 43,
       "first_position": 43,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 3,
+          "position": 43,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -51,6 +155,14 @@
       "current_position": 10,
       "first_position": 10,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 10,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -62,6 +174,14 @@
       "current_position": 4,
       "first_position": 4,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 4,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -73,6 +193,14 @@
       "current_position": 9.333333333333334,
       "first_position": 9.333333333333334,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 3,
+          "position": 9.333333333333334,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -84,6 +212,14 @@
       "current_position": 7.766666666666667,
       "first_position": 7.766666666666667,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 30,
+          "position": 7.766666666666667,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -95,6 +231,14 @@
       "current_position": 43,
       "first_position": 43,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 43,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -106,6 +250,14 @@
       "current_position": 3.6666666666666665,
       "first_position": 3.6666666666666665,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 3,
+          "position": 3.6666666666666665,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -117,6 +269,14 @@
       "current_position": 1,
       "first_position": 1,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 1,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -137,6 +297,14 @@
       "current_position": 1,
       "first_position": 1,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 1,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -148,6 +316,14 @@
       "current_position": 3,
       "first_position": 3,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 3,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -168,6 +344,14 @@
       "current_position": 14,
       "first_position": 14,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 14,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -177,8 +361,22 @@
       "best_position": 15,
       "current_impressions": 1,
       "current_position": 15,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 6
+        }
+      ],
       "first_position": 15,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 15,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -188,6 +386,12 @@
       "best_position": null,
       "current_impressions": null,
       "current_position": null,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 7
+        }
+      ],
       "first_position": null,
       "language": "en",
       "source": "autocomplete_expansion",
@@ -199,6 +403,14 @@
       "current_position": 2,
       "first_position": 2,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 2,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -210,6 +422,14 @@
       "current_position": 2,
       "first_position": 2,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 2,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -221,6 +441,14 @@
       "current_position": 7,
       "first_position": 7,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 7,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -232,6 +460,14 @@
       "current_position": 10,
       "first_position": 10,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 10,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -243,6 +479,14 @@
       "current_position": 6,
       "first_position": 6,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 6,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -254,6 +498,14 @@
       "current_position": 3,
       "first_position": 3,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 3,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -301,6 +553,14 @@
       "current_position": 12,
       "first_position": 12,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 12,
+          "run": 7
+        }
+      ],
       "language": "en",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -330,6 +590,14 @@
       "current_position": 2,
       "first_position": 2,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 2,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -341,6 +609,14 @@
       "current_position": 1.5,
       "first_position": 1.5,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 2,
+          "position": 1.5,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -379,6 +655,14 @@
       "current_position": 54,
       "first_position": 54,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 54,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -408,6 +692,14 @@
       "current_position": 1,
       "first_position": 1,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 1,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -446,6 +738,14 @@
       "current_position": 4,
       "first_position": 4,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 4,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -457,6 +757,14 @@
       "current_position": 1,
       "first_position": 1,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 3,
+          "position": 1,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -468,6 +776,14 @@
       "current_position": 49,
       "first_position": 49,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 49,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -479,6 +795,14 @@
       "current_position": 62,
       "first_position": 62,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 62,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -490,6 +814,14 @@
       "current_position": 50,
       "first_position": 50,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 50,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -501,6 +833,14 @@
       "current_position": 21,
       "first_position": 21,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 21,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -512,6 +852,14 @@
       "current_position": 1,
       "first_position": 1,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 1,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -521,6 +869,12 @@
       "best_position": null,
       "current_impressions": null,
       "current_position": null,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 7
+        }
+      ],
       "first_position": null,
       "language": "he",
       "source": "autocomplete_expansion",
@@ -532,6 +886,14 @@
       "current_position": 7.545454545454546,
       "first_position": 7.545454545454546,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 33,
+          "position": 7.545454545454546,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -541,8 +903,22 @@
       "best_position": 11.6,
       "current_impressions": 5,
       "current_position": 11.6,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 4
+        }
+      ],
       "first_position": 11.6,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 5,
+          "position": 11.6,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -554,6 +930,14 @@
       "current_position": 5,
       "first_position": 5,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 5,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -563,8 +947,22 @@
       "best_position": 14.333333333333334,
       "current_impressions": 3,
       "current_position": 14.333333333333334,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 4
+        }
+      ],
       "first_position": 14.333333333333334,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 3,
+          "position": 14.333333333333334,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -592,8 +990,22 @@
       "best_position": 62,
       "current_impressions": 1,
       "current_position": 62,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 6
+        }
+      ],
       "first_position": 62,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 62,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -605,6 +1017,14 @@
       "current_position": 4,
       "first_position": 4,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 4,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -616,6 +1036,14 @@
       "current_position": 2,
       "first_position": 2,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 4,
+          "position": 2,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -627,6 +1055,14 @@
       "current_position": 5,
       "first_position": 5,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 5,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
@@ -638,6 +1074,14 @@
       "current_position": 56.93333333333333,
       "first_position": 56.93333333333333,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 15,
+          "position": 56.93333333333333,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
@@ -674,6 +1118,12 @@
       "best_position": null,
       "current_impressions": null,
       "current_position": null,
+      "edits": [
+        {
+          "date": "2026-11-26",
+          "run": 5
+        }
+      ],
       "first_position": null,
       "language": "he",
       "source": "autocomplete_expansion",
@@ -703,10 +1153,19 @@
       "current_position": 68,
       "first_position": 68,
       "first_seen": "2026-11-26",
+      "history": [
+        {
+          "date": "2026-11-26",
+          "impressions": 1,
+          "position": 68,
+          "run": 7
+        }
+      ],
       "language": "he",
       "last_checked": "2026-11-26",
       "promoted_date": null,
       "status": "targeting"
     }
-  }
+  },
+  "run_count": 7
 }

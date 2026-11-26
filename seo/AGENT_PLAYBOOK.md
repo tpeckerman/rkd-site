@@ -153,7 +153,40 @@ not worth chasing with on-page work):
    ambiguous or might not match a real offering, flag it in the log under
    "Still open" and ask the owner, rather than guessing.
 
-5. **Deploy**, matching how this repo works:
+   **Rewrite before you append.** Before adding a new sentence to cover a
+   phrase, check whether something already on the page is close to the
+   same idea and could be reworded to cover it instead — a rewritten
+   sentence that reads better AND covers the phrase beats a bolted-on
+   extra sentence that only covers the phrase. The test for every edit:
+   would a real visitor find this clearer or more appealing, independent
+   of SEO? If the honest answer is no — if the only reason the sentence
+   exists is to contain a keyword — rewrite it until the answer is yes.
+   Every fix in Runs 1-7 was written to this bar; keep it that way as the
+   page accumulates more targeted phrases over time, since a page that
+   reads like a keyword list is a credibility and conversion problem for
+   actual visitors, not just an aesthetic one — and Google's quality
+   signals increasingly penalize exactly that pattern too.
+
+   **Give up on a query gracefully, don't loop on it forever.** If a
+   specific query has had on-page changes made across 4 separate runs
+   with no improvement in position, stop making further on-page edits
+   for it. Mark it in the log as "needs off-site work, not more on-page
+   copy" (link to the relevant "Known gaps" item — backlinks, directory
+   listings, reviews) and move on to a different opportunity. On-page
+   wording can only do so much against competition and authority; don't
+   keep rewording the same sentence indefinitely hoping the phrasing is
+   the problem.
+
+5. **Record every fix before deploying.** For each query you targeted this
+   run, call `record_edit(tracker, query, run, description, page, pr_link)`
+   from `seo/search_console_report.py` (import it, or add the call inline
+   in a short script) — `run` is whatever `next_run_number()` returned this
+   run. This feeds two things: the per-query edit count that drives the
+   "give up after 4 edit runs" rule above, and the Changes log that
+   `seo/sheets_sync.py` publishes. Skipping this doesn't break anything
+   immediately, but it silently breaks both of those later.
+
+6. **Deploy**, matching how this repo works:
    - Branch from `origin/main`: `git checkout -B claude/seo-agent-run-N origin/main`
    - Commit, push, open a PR against `main`, merge (squash) — if the merge
      call fails with "Pull Request has merge conflicts", it's almost always
@@ -164,7 +197,12 @@ not worth chasing with on-page work):
    - `seo/keyword_tracker.json` gets updated by step 2 and should be
      committed as part of this run's PR, alongside any content fixes
 
-6. **Log the run** in `seo/SEO_LOG.md` (template below).
+7. **Sync to Google Sheets** (if `SEO_SHEET_ID` is configured — see "Rank
+   tracking spreadsheet" below): `python3 seo/sheets_sync.py`. This isn't a
+   source of truth — `seo/keyword_tracker.json` is — it's a read-only export
+   for the owner to glance at without needing to read JSON or PRs.
+
+8. **Log the run** in `seo/SEO_LOG.md` (template below).
 
 ## Search Console access
 
@@ -228,6 +266,35 @@ content, not fixes to existing pages — add 1-2 per run at most, and expect
 most to not pan out. Keep `ROOT_PHRASES` and `OFF_TOPIC_SUBSTRINGS` in the
 script updated as you learn what's relevant vs. noise, the same way
 `TARGET_QUERIES_SUBSTRINGS` gets maintained.
+
+## Rank tracking spreadsheet
+
+`seo/sheets_sync.py` publishes `seo/keyword_tracker.json` to a Google Sheet
+for the owner — not a second source of truth, a read-only view of the same
+JSON. Two tabs:
+- **Rankings**: one row per phrase, one column per run (label "Run N
+  (date)"), the cell is that phrase's average position in that run. Blank
+  means the phrase wasn't tracked yet at that point. New phrases appear as
+  new rows automatically — no manual upkeep.
+- **Changes**: one row per `record_edit()` call ever made — run, date,
+  query, what changed, which page, PR link. This is the running "what did
+  we actually do about it" log, in one place instead of scattered across
+  `seo/SEO_LOG.md` entries.
+
+**One-time setup** (needs the owner — a service account can't create and
+share a Google Sheet on its own):
+1. Enable the Sheets API for the `rkd-seo` GCP project:
+   console.cloud.google.com/apis/library/sheets.googleapis.com
+2. Create a Google Sheet, share it with
+   `seo-reader@rkd-seo.iam.gserviceaccount.com` as Editor.
+3. Set `SEO_SHEET_ID` (env var, or hardcode in `sheets_sync.py`) to the
+   sheet's ID from its URL.
+4. Add `sheets.googleapis.com` to the environment's network allowlist (same
+   `update_environment` pattern as the other Google API hosts).
+
+Until this is set up, `sheets_sync.py` exits with a clear error rather than
+silently doing nothing — don't treat that as a reason to stop the rest of
+the run, the tracker JSON is already the real record either way.
 
 ## Known gaps / off-site recommendations
 
