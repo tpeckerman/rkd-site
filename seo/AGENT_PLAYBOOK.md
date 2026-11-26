@@ -35,14 +35,61 @@ before treating every substring match as a real opportunity — check that the
 query is actually about family/kids/arcade/Zichron-Yaakov-the-town, not just
 that it happens to contain one of the filter words.
 
-**A handful of seed phrases** the owner specifically cares about even before
-they show real volume (useful for Run 1-3's "did we even get an exact
-phrase on the page" checks, less relevant now that the tracker exists):
-"fun things to do in Zichron Yaakov" / "family activities Zichron Yaakov" /
-"children's activities Zichron Yaakov" / "kids birthday party Zichron
-Yaakov" / "arcade Zichron Yaakov" (EN), and their Hebrew equivalents
-(see Run 3's log entry for the exact pairs). These are already on the site
-verbatim — no need to re-add them, just don't accidentally remove them.
+## Master prompt list
+
+The explicit set of phrases this agent checks against — every one of these
+has been validated as a real search (either real Search Console impressions,
+or echoed back by Google's own autocomplete as a recognized query — not
+guessed). ✅ = already appears verbatim on the site. This list only grows;
+when a new validated phrase is found, add it here, to `ROOT_PHRASES` in
+`seo/keyword_expansion.py` (if it's a good root for further expansion), and
+to `TARGET_QUERIES_SUBSTRINGS` in `seo/search_console_report.py` if it
+introduces a new relevant word the filter doesn't already catch.
+
+**English:**
+| Phrase | Status |
+|---|---|
+| things to do in Zichron Yaakov | ✅ page 1 (via "fun activities to do," #1) |
+| fun things to do in Zichron Yaakov | ✅ on page |
+| best things to do in Zichron Yaakov | candidate |
+| things to see in Zichron Yaakov | candidate |
+| kids activities Zichron Yaakov | ✅ on page (Run 7) |
+| family activities Zichron Yaakov | ✅ on page |
+| children's activities Zichron Yaakov | ✅ on page |
+| indoor fun places for kids | ✅ page 1 |
+| rainy day activities for kids | ✅ page 1 |
+| kids birthday party Zichron Yaakov | ✅ on page |
+| arcade Zichron Yaakov | ✅ on page |
+| arcade near me | ✅ page 1 |
+| air hockey arcade | ✅ on page |
+| zichron yaakov events | candidate |
+
+**Hebrew:**
+| Phrase | Status |
+|---|---|
+| דברים כיפיים לעשות בזכרון יעקב | ✅ on page |
+| דברים לעשות בזכרון יעקב (no "כיפיים") | ✅ on page (Run 7) |
+| דברים לעשות בזכרון יעקב והסביבה | candidate |
+| מה לעשות עם ילדים בזכרון יעקב | ✅ on page (Run 7) |
+| אטרקציות בזכרון יעקב | ✅ page 1 |
+| אטרקציות לילדים בזכרון יעקב | still targeting (position ~54, far off) |
+| אטרקציות למשפחה בזכרון יעקב | candidate |
+| אטרקציות בזכרון יעקב למבוגרים / לזוגות | candidate — new audience segments (adults/couples) |
+| פעילות משפחתית בזכרון יעקב | ✅ on page |
+| פעילויות לילדים בזכרון יעקב | ✅ on page |
+| פעילויות בזכרון יעקב והסביבה | candidate |
+| פעילויות גיבוש בזכרון יעקב | ✅ on page |
+| משחקייה / משחקייה לילדים בזכרון יעקב | ✅ on page |
+| מסיבת יום הולדת לילדים בזכרון יעקב | ✅ on page, singular form matches real query |
+| ארקייד בזכרון יעקב | ✅ on page |
+| מכונות משחק לאירועים בזכרון יעקב | page 1, but intent unconfirmed (see Run 2) |
+
+**Flagged — real queries, deliberately not targeted** (wrong business/location,
+not worth chasing with on-page work):
+- "ערכות לגיל הזהב זכרון וקשר" — false positive, "זכרון" = generic word "memory"
+- "חדר בריחה ב/זכרון/זכרון יעקב" (escape room) — different business category than an arcade
+- "יום הולדת גיימינג פתח תקווה" — different city (Petah Tikva)
+- "דברים לעשות בזכרון יעקב בשבת" (Shabbat-specific) — only worth targeting if the business is actually open Saturdays
 
 ## Process
 

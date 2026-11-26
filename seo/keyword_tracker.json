@@ -184,6 +184,15 @@
       "promoted_date": null,
       "status": "targeting"
     },
+    "kids activities zichron yaakov": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "kids and fun": {
       "best_position": 2,
       "current_impressions": 1,
@@ -297,6 +306,15 @@
       "promoted_date": null,
       "status": "targeting"
     },
+    "zichron yaakov events": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "en",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "zichron yaakov kids": {
       "best_position": null,
       "current_impressions": null,
@@ -395,6 +413,33 @@
       "promoted_date": "2026-11-26",
       "status": "page1"
     },
+    "דברים לעשות בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "דברים לעשות בזכרון יעקב בשבת": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
+    "דברים לעשות בזכרון יעקב והסביבה": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
+    },
     "זכרון": {
       "best_position": 4,
       "current_impressions": 1,
@@ -471,6 +516,15 @@
       "last_checked": "2026-11-26",
       "promoted_date": "2026-11-26",
       "status": "page1"
+    },
+    "מה לעשות עם ילדים בזכרון יעקב": {
+      "best_position": null,
+      "current_impressions": null,
+      "current_position": null,
+      "first_position": null,
+      "language": "he",
+      "source": "autocomplete_expansion",
+      "status": "candidate"
     },
     "מכונות משחק לאירועים בזיכרון יעקב": {
       "best_position": 7.545454545454546,
