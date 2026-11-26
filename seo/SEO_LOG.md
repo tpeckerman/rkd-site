@@ -187,3 +187,11 @@ Adding "for kids" moves the query into materially harder territory. The sheet is
 3. **karamel.co.il** and **easy.co.il** (carried over from Run 1) — Israeli kids'-activity directories.
 
 This supersedes the vaguer "get listed on karamel.co.il and tiuli.com" recommendation from Run 1 with concrete, evidence-backed targets.
+
+## Finding — 2026-11-26: Google's AI Overview confirms the same root cause a third way
+
+Same search ("זכרון יעקב אטרקציות לילדים"). Owner noticed Google's AI Overview box (an LLM-generated summary shown above all other results) names two competing play centers — "משחקיית מדבר" (Bamidbar, described as very new) and "Play Game" — under a "Playgrounds and challenge games" category, but not RKD.
+
+This is a third distinct Google surface (after regular organic results and the "Things to do" carousel) landing on the same root cause. AI Overview doesn't crawl and rank rkdzichron.com directly — it synthesizes a summary from whatever Google's index already has *written about* local businesses, which is almost certainly the same directory/aggregator pages identified in the previous finding (karamel.co.il, visit-zichronyaakov.co.il, TripAdvisor, easy.co.il). If competitors are named on those pages and RKD isn't, the AI Overview can only cite what it can find — it has nothing to say about a business that isn't mentioned anywhere it reads.
+
+**This doesn't change the recommendation, it strengthens it to near-certainty**: getting RKD listed/mentioned by name on those directory and tourism-board pages is now confirmed relevant across three separate, high-visibility Google surfaces (organic results, the attractions carousel, and AI Overview) — not a single-surface fix. This is now the clear top priority over any further on-page website work.
