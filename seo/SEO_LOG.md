@@ -158,3 +158,15 @@ Owner asked four things: (1) a Google Sheets export (phrases × run dates, rank 
 Owner shared the Sheet ID, I set it up end-to-end: enabled Sheets API access, ran `seo/sheets_sync.py` against the real sheet — worked on the first try. Verified both tabs' actual content via a direct API read (not just "no errors"): Rankings tab correctly lists all 69 tracked phrases with status; Changes tab correctly lists all 8 backfilled fixes with working PR links. Hardcoded the sheet ID as the script's default (not a secret) so no env var is needed going forward — just `python3 seo/sheets_sync.py`.
 
 Sheet: https://docs.google.com/spreadsheets/d/1l_cSP6HYGr7Au2Xubz5cLCXoMsp3KaN-57pMd5zMG60/edit
+
+## Finding — 2026-11-26: Google Business Profile confirmed, real gap identified
+
+Owner tested a real search ("זכרון יעקב אטרקציות לילדים" / "זכרון יעקב, attractions for kids") in incognito and got Google's "Things to do" visual carousel (Ramat Hanadiv, First Aliyah Museum, local wineries, bike rentals, a ceramics studio) with no RKD. **Important: this carousel is a completely different system than everything this agent tracks** — it's populated from Google's Places/Maps data and (for at least some entries, given visible ticket prices) travel/ticketing partner feeds, not from website content or organic web search at all. None of the on-page SEO work in this repo can influence it directly.
+
+Checked the actual Google Business Profile (owner has access): it exists and is reasonably well set up — primary category "Video arcade," secondary categories Toy store / Game store / Children hall / Children's amusement center (all accurate, not the problem), phone and address match the site, 4.7 star rating.
+
+**The real, confirmed gap: only 15 reviews**, versus the carousel's actual occupants — Ramat Hanadiv (13K reviews), Beit Aharonson Museum (1.2K), Yekev Tishbi (2.1K), First Aliyah Museum (717). This is almost certainly the dominant reason RKD doesn't appear in that specific carousel, far more than any website content gap. (Caveat: can't be fully certain reviews alone guarantee inclusion in this specific feature, given the apparent ticketing-partner angle on some entries — but growing reviews is unambiguously valuable regardless, for Maps ranking, the local pack, and conversion.)
+
+Also found a typo in the Business Profile description: "כף" should be "כיף" — a one-letter owner-side fix, unrelated to this repo.
+
+**This resolves part of a long-standing "still open" item** (confirm GBP exists/is complete) and sharpens it: the profile itself isn't the gap, review volume is. Recommending the owner start a review-generation effort (e.g. a QR code at the venue, or a WhatsApp follow-up after birthday bookings) as the single highest-leverage outstanding item — more impactful right now than further on-page work.
