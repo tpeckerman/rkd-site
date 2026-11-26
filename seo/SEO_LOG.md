@@ -170,3 +170,20 @@ Checked the actual Google Business Profile (owner has access): it exists and is 
 Also found a typo in the Business Profile description: "כף" should be "כיף" — a one-letter owner-side fix, unrelated to this repo.
 
 **This resolves part of a long-standing "still open" item** (confirm GBP exists/is complete) and sharpens it: the profile itself isn't the gap, review volume is. Recommending the owner start a review-generation effort (e.g. a QR code at the venue, or a WhatsApp follow-up after birthday bookings) as the single highest-leverage outstanding item — more impactful right now than further on-page work.
+
+## Finding — 2026-11-26: real search confirms a known weak query, sharpens the directory recommendation
+
+Owner searched "זכרון יעקב אטרקציות לילדים" live, from within Zichron Yaakov (best-case local-intent conditions), scrolled past the carousel to the regular organic results, and RKD wasn't there. This looked alarming at first but is actually **consistent with, not contradictory to**, what the tracker already shows:
+- "אטרקציות בזכרון יעקב" (no "for kids") — tracked at position 1.5, genuinely good
+- "אטרקציות לילדים בזכרון יעקב" (with "for kids") — already flagged since Run 5 as position ~54, a known weak point
+
+Adding "for kids" moves the query into materially harder territory. The sheet isn't wrong; this is just a different, harder query than the one that was doing well.
+
+**The more useful finding**: every single organic result on that page was a directory/aggregator/tourism-board site — karamel.co.il, TripAdvisor, **visit-zichronyaakov.co.il** (the town's own official tourism site), easy.co.il, a Facebook parents' group. Zero individual attraction websites ranked. This is a real, consistent pattern for "best things to do for kids in [town]" style queries — Google strongly favors roundup/list content over individual business pages here, close to regardless of that business's own SEO quality.
+
+**Sharpened recommendation**: for this specific query category, the realistic path isn't out-ranking these sites with rkdzichron.com — it's getting *listed inside* them. Specifically, in priority order based on what actually showed up in this real search:
+1. **visit-zichronyaakov.co.il** — the official town tourism board's attractions page. Likely free/easy for a local business to request a listing.
+2. **TripAdvisor** — claim/create a listing for RKD as an attraction (free to list a business).
+3. **karamel.co.il** and **easy.co.il** (carried over from Run 1) — Israeli kids'-activity directories.
+
+This supersedes the vaguer "get listed on karamel.co.il and tiuli.com" recommendation from Run 1 with concrete, evidence-backed targets.
