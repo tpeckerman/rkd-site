@@ -152,3 +152,9 @@ Owner asked four things: (1) a Google Sheets export (phrases × run dates, rank 
 **Still open / needs owner action:**
 - The spreadsheet itself needs one-time setup only the owner can do (a service account can't create/share a Sheet on its own): enable the Sheets API for the `rkd-seo` GCP project, create a Google Sheet, share it with `seo-reader@rkd-seo.iam.gserviceaccount.com` as Editor, and give the Sheet ID. Documented in the playbook's "Rank tracking spreadsheet" section.
 - Everything from Run 7 (karamel.co.il/tiuli.com, Google Business Profile, reviews, "zichron yaakov events" / "והסביבה" candidates, escape room / Petah Tikva / Shabbat mismatches).
+
+## Sheets sync — live, 2026-11-26
+
+Owner shared the Sheet ID, I set it up end-to-end: enabled Sheets API access, ran `seo/sheets_sync.py` against the real sheet — worked on the first try. Verified both tabs' actual content via a direct API read (not just "no errors"): Rankings tab correctly lists all 69 tracked phrases with status; Changes tab correctly lists all 8 backfilled fixes with working PR links. Hardcoded the sheet ID as the script's default (not a secret) so no env var is needed going forward — just `python3 seo/sheets_sync.py`.
+
+Sheet: https://docs.google.com/spreadsheets/d/1l_cSP6HYGr7Au2Xubz5cLCXoMsp3KaN-57pMd5zMG60/edit

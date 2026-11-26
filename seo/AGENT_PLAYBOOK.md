@@ -269,32 +269,27 @@ script updated as you learn what's relevant vs. noise, the same way
 
 ## Rank tracking spreadsheet
 
-`seo/sheets_sync.py` publishes `seo/keyword_tracker.json` to a Google Sheet
-for the owner — not a second source of truth, a read-only view of the same
-JSON. Two tabs:
+**Live since 2026-11-26.** `seo/sheets_sync.py` publishes
+`seo/keyword_tracker.json` to a Google Sheet for the owner — not a second
+source of truth, a read-only view of the same JSON. The sheet ID is
+hardcoded as the default in `sheets_sync.py` (not a secret — access is
+controlled by the sheet's own Google sharing permissions, not by the ID
+being unknown). Just run `python3 seo/sheets_sync.py` after any run that
+touches the tracker; no setup needed anymore. Two tabs:
 - **Rankings**: one row per phrase, one column per run (label "Run N
   (date)"), the cell is that phrase's average position in that run. Blank
   means the phrase wasn't tracked yet at that point. New phrases appear as
-  new rows automatically — no manual upkeep.
+  new rows automatically — no manual upkeep. (Position history only exists
+  from Run 7 onward, when this field was added — earlier runs only have
+  their final first/best/current values, not a full per-run trail.)
 - **Changes**: one row per `record_edit()` call ever made — run, date,
-  query, what changed, which page, PR link. This is the running "what did
-  we actually do about it" log, in one place instead of scattered across
-  `seo/SEO_LOG.md` entries.
+  query, what changed, which page, PR link.
 
-**One-time setup** (needs the owner — a service account can't create and
-share a Google Sheet on its own):
-1. Enable the Sheets API for the `rkd-seo` GCP project:
-   console.cloud.google.com/apis/library/sheets.googleapis.com
-2. Create a Google Sheet, share it with
-   `seo-reader@rkd-seo.iam.gserviceaccount.com` as Editor.
-3. Set `SEO_SHEET_ID` (env var, or hardcode in `sheets_sync.py`) to the
-   sheet's ID from its URL.
-4. Add `sheets.googleapis.com` to the environment's network allowlist (same
-   `update_environment` pattern as the other Google API hosts).
-
-Until this is set up, `sheets_sync.py` exits with a clear error rather than
-silently doing nothing — don't treat that as a reason to stop the rest of
-the run, the tracker JSON is already the real record either way.
+If `sheets_sync.py` ever starts failing (e.g. the sheet got unshared, or
+`sheets.googleapis.com` drops off the environment's network allowlist for
+some reason), don't treat that as a reason to stop the rest of the run —
+`seo/keyword_tracker.json` is the real record either way; just note the
+sync failure in the log.
 
 ## Known gaps / off-site recommendations
 

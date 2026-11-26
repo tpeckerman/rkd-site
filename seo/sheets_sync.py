@@ -7,13 +7,11 @@ Reuses the same service-account auth as search_console_report.py (fetched
 from Doppler automatically), just with the Sheets scope instead of the
 Search Console one — same key, different permission.
 
-**One-time setup before this can work:**
-1. Enable the Google Sheets API for the rkd-seo GCP project:
-   https://console.cloud.google.com/apis/library/sheets.googleapis.com
-2. Create a Google Sheet (any name, e.g. "RKD SEO Rank Tracker").
-3. Share it with seo-reader@rkd-seo.iam.gserviceaccount.com as Editor.
-4. Set SPREADSHEET_ID below to the sheet's ID (from its URL:
-   docs.google.com/spreadsheets/d/<THIS PART>/edit).
+Live sheet: https://docs.google.com/spreadsheets/d/1l_cSP6HYGr7Au2Xubz5cLCXoMsp3KaN-57pMd5zMG60/edit
+(set up 2026-11-26 — Sheets API enabled on the rkd-seo GCP project, sheet
+shared with seo-reader@rkd-seo.iam.gserviceaccount.com as Editor). The ID
+isn't a secret — it's just a URL component; actual access is controlled by
+Google's own sharing permissions on the sheet, not by the ID being unknown.
 
 Usage:
     python3 seo/sheets_sync.py
@@ -29,8 +27,9 @@ from search_console_report import (
     load_service_account_credentials, get_access_token, load_tracker, sign_rs256, b64url,
 )
 
-# Set this once, after creating and sharing the sheet (see docstring above).
-SPREADSHEET_ID = os.environ.get("SEO_SHEET_ID", "")
+# The live rank-tracking sheet (see docstring above). Override with
+# SEO_SHEET_ID if you ever need to point this at a different sheet.
+SPREADSHEET_ID = os.environ.get("SEO_SHEET_ID", "1l_cSP6HYGr7Au2Xubz5cLCXoMsp3KaN-57pMd5zMG60")
 
 SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets"
 TOKEN_URI = "https://oauth2.googleapis.com/token"
