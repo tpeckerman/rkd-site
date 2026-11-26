@@ -124,3 +124,17 @@ Demo/test run at the owner's request, to show the full loop end-to-end: search �
 **On re-running immediately after the fix:** the rank numbers above are unchanged from Run 5 (same real data, same 90-day window) — that's expected. Google needs real time (days to weeks) to recrawl the updated pages and re-rank them; an immediate re-check cannot show movement yet. The next genuine checkpoint is the scheduled Monday run, or any manual run from here forward — if "indoor"/"משחקייה"-related queries climb or start getting more impressions in future runs, that's the fix working.
 
 **Still open / needs owner action:** unchanged from Run 5, plus the escape-room and Petah Tikva questions above.
+
+## Run 7 — 2026-11-26
+
+Owner asked specifically about "activities for kids Zichron" and asked to formalize an explicit master list of prompts the agent checks (not just dynamically discovered ones).
+
+**Validated via Google's own autocomplete** (not guessed — only added if Google echoed it back as a recognized real query): "kids activities zichron yaakov" (EN) and "מה לעשות עם ילדים בזכרון יעקב" / "דברים לעשות בזכרון יעקב" (HE) were all real, confirmed searches, and none were on the site yet.
+
+**Fixes made:** (PR link: to be added on merge)
+- Added "kids activities Zichron Yaakov" to the homepage's opening hook sentence (EN)
+- Added "מה לעשות עם ילדים בזכרון יעקב" and "דברים לעשות בזכרון יעקב" (the plain, non-"כיפיים" variant) to the homepage's opening hook sentence (HE)
+- Added the newly-validated phrases to `ROOT_PHRASES` in `seo/keyword_expansion.py` and ran it — found 6 new candidates ("zichron yaakov events," "דברים לעשות בזכרון יעקב והסביבה," "דברים לעשות בזכרון יעקב בשבת," among others)
+- Added a full **master prompt list** to `seo/AGENT_PLAYBOOK.md` — every phrase the agent checks, with status, so it's a reviewable, explicit list rather than scattered across run logs
+
+**Still open / needs owner action:** unchanged from Run 6, plus the new candidates from this run's expansion (notably "zichron yaakov events" and the "והסביבה"/"and surroundings" pattern, which keeps recurring in Hebrew autocomplete — may be worth a dedicated angle in a future run).

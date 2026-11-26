@@ -40,12 +40,16 @@ ROOT_PHRASES = {
     "en": [
         "things to do in zichron yaakov",
         "zichron yaakov kids",
+        "kids activities zichron yaakov",
         "zichron yaakov family",
         "zichron yaakov birthday",
+        "zichron yaakov events",
         "arcade zichron",
     ],
     "he": [
         "פעילויות בזכרון יעקב",
+        "דברים לעשות בזכרון יעקב",
+        "מה לעשות עם ילדים בזכרון יעקב",
         "אטרקציות בזכרון יעקב ל",
         "משחקיה בזכרון יעקב",
         "ארקייד בזכרון יעקב",
