@@ -92,3 +92,17 @@ Owner clarified the real goal: iterate over **all** real, relevant search phrase
 - "משחקי וידאו לילדים בזיכרון יעקב" (3 impressions, position 14.3): added "video games" / "משחקי וידאו" as an explicit synonym alongside "arcade games" / "משחקי ארקייד" on the homepage (`index.html`, `he/index.html`), since the site previously only used "arcade games" wording.
 
 **Still open / needs owner action:** unchanged from Run 2/3 (karamel.co.il/tiuli.com listing, Google Business Profile, reviews, the "מכונות משחק לאירועים" service-offering question, watching the http/https split) — plus: next run should check whether these 3 fixes moved their target queries' positions.
+
+## Run 5 — 2026-11-26
+
+Owner relayed a suggestion (from asking Gemini about similar agent setups) to add keyword-expansion/autocomplete-based research, to find real searches the site has zero visibility on — not just improve queries it already shows up for. Declined the specific third-party tools suggested (installing an unreviewed third-party MCP server or plugin means running someone else's code with real tool-calling permissions — a real supply-chain risk not worth taking when we already have a working equivalent) and built this ourselves: `seo/keyword_expansion.py` queries Google's own public autocomplete endpoint directly (no API key, no third-party service) with root phrases in both languages, and feeds new candidates into `seo/keyword_tracker.json` with status `candidate`.
+
+**Keyword expansion run (first time):**
+- 10 root phrases (5 English, 5 Hebrew) → 20 new on-topic candidates added to the tracker, 0 already known
+- Real finds worth noting: "פעילויות גיבוש בזכרון יעקב" (team-building activities) — a genuinely new angle the site never mentioned; "אטרקציות בזכרון יעקב למבוגרים/לזוגות" (for adults/for couples) — audience segments beyond "kids and families" that autocomplete surfaced; "משחקיה" as a real alternate Hebrew word for "play center" people search, distinct from "ארקייד"
+- Filtered out off-topic noise automatically (hotels/restaurants/winery dominate generic "Zichron Yaakov" autocomplete — added an exclude list rather than treating those as opportunities)
+
+**Fixes made (1 of the 20 candidates, per the playbook's "1-2 per run" guidance):** (PR link: to be added on merge)
+- Added "team-building outing" / "פעילויות גיבוש בזכרון יעקב" to `group-rates.html` / `he/group-rates.html`'s intro copy — a true repositioning of the existing group-visit offering (not a new claimed service), alongside the school-trip/family-reunion framing already there.
+
+**Still open / needs owner action:** unchanged from Run 4, plus: the other 19 candidates from this run are logged in the tracker for future runs to consider (notably the "for adults"/"for couples" angle, which could suit the existing air hockey tournament page).

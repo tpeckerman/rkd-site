@@ -15,9 +15,10 @@ search traffic defines what to chase, and the set gets bigger as the site
 gets more visibility (more impressions surface more real queries).
 
 This is tracked in **`seo/keyword_tracker.json`**, maintained automatically
-by `seo/search_console_report.py` — see "Search Console access" below. Don't
-hand-maintain a separate query list; the tracker IS the list, built from
-real data every run.
+by `seo/search_console_report.py` (real queries the site already has some
+visibility on) and `seo/keyword_expansion.py` (real queries it has ZERO
+visibility on yet — see "Keyword expansion" below). Don't hand-maintain a
+separate query list; the tracker IS the list, built from real data.
 
 **Relevance filter, not a closed list:** `TARGET_QUERIES_SUBSTRINGS` in
 `search_console_report.py` decides which of the real queries Search Console
@@ -155,6 +156,31 @@ file is the persistent memory of "what are we chasing and how's it going,"
 across however many runs it takes. Commit it every run, even if a query's
 position barely moved; the `best_position`/`first_seen`/`promoted_date`
 fields are what let a future run tell real progress from noise.
+
+## Keyword expansion (finding blind spots, not just weak rankings)
+
+`seo/search_console_report.py` can only ever surface a query the site
+already has at least one impression on — it's blind to real searches the
+site doesn't show up for *at all* yet. `seo/keyword_expansion.py` closes
+that gap: it queries Google's public autocomplete endpoint
+(`suggestqueries.google.com`, no API key, no third-party service) with a
+curated list of root phrases in both languages, and adds anything new to
+`seo/keyword_tracker.json` with status `candidate` (no position exists yet
+— that's the point). If a candidate later starts showing real impressions,
+the next Search Console run naturally promotes it to `targeting`/`page1`,
+since both scripts key off the literal query string.
+
+This needs `suggestqueries.google.com` reachable (added to the environment
+allowlist the same way as the other hosts above). It doesn't need to run
+every single week — the root phrases and what Google suggests for them
+don't change fast — every few weeks is plenty. When it finds genuinely new,
+on-topic angles (Run 5 found "פעילויות גיבוש" — team-building — and several
+audience segments like "for couples"/"for adults" that autocomplete
+surfaced but the site never mentioned), treat them as candidates for new
+content, not fixes to existing pages — add 1-2 per run at most, and expect
+most to not pan out. Keep `ROOT_PHRASES` and `OFF_TOPIC_SUBSTRINGS` in the
+script updated as you learn what's relevant vs. noise, the same way
+`TARGET_QUERIES_SUBSTRINGS` gets maintained.
 
 ## Known gaps / off-site recommendations
 
