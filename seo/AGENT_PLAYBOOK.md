@@ -10,7 +10,9 @@ What "ranking" means for this site — the searches a real customer would type.
 
 English:
 - things to do with kids in Zichron Yaakov
+- fun things to do in Zichron Yaakov
 - family activities Zichron Yaakov
+- children's activities Zichron Yaakov
 - kids birthday party Zichron Yaakov
 - arcade Zichron Yaakov
 
@@ -19,6 +21,11 @@ Hebrew:
 - פעילויות לילדים בזכרון יעקב
 - מסיבת יום הולדת לילדים בזכרון יעקב
 - RKD ארקייד זכרון יעקב (brand + location sanity check)
+
+This list grows as real search terms turn up in Search Console data (see
+Run 2's log entry for an example: "מכונות משחק לאירועים" was found this way
+and added). When it does, also update `TARGET_QUERIES_SUBSTRINGS` in
+`seo/search_console_report.py` so the report actually flags matches on it.
 
 ## Process
 
