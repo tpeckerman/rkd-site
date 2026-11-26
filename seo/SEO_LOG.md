@@ -42,3 +42,22 @@ The owner set up a Search Console service account mid-run (`seo-reader@rkd-seo.i
 ## Addendum 2 to Run 1 — same day, Doppler closes the automation gap
 
 The owner set up a Doppler vault (project `rkd-seo`, config `prd`) holding the Google service-account key, and granted this session read access via a service token saved through `request_credential` for `api.doppler.com`. `seo/search_console_report.py` now fetches the key from Doppler automatically instead of needing it pasted into a session — **tested working with no local key file present**. This closes the gap flagged above and in the playbook's old "Known gaps" section: the unattended weekly job can now pull real Search Console data every run instead of falling back to WebSearch. See the playbook's "Search Console access" section for how this is wired up.
+
+## Run 2 — 2026-11-26
+
+**Baseline search check (real Search Console data):**
+Same 90-day window as Run 1's addendum (too little time has passed for meaningful movement). Owner asked to explicitly target more English phrasings ("fun things to do in Zichron Yaakov", "family activities Zichron Yaakov", "children's activities Zichron Yaakov"). Checked the real data for these: no exact matches yet, but close variants are already getting isolated impressions — "fun activities to do" (1 impression, position 1.0), "indoor fun places for kids" (1, position 15), "rainy day activities for kids" (1, position 10), "kids and fun" (1, position 2.0). Target query list in the playbook updated to include these phrasings explicitly, and `TARGET_QUERIES_SUBSTRINGS` in the script updated ("children", "fun", "activities" added) so future reports surface matches on them.
+
+**Technical audit findings:**
+- Clean. All 14 pages (7 English + 7 Hebrew) have valid title/meta description/canonical/hreflang/JSON-LD — no broken images, no oversized images (only one at 262KB, already compressed from 1.9MB in Run 1, not worth further squeezing), all pages present in `sitemap.xml`.
+- The underperforming query flagged in Run 1 ("מסיבת יום הולדת לילדים", avg position 11.6) is already exactly matched by `birthday.html`'s title tag — there's no further on-page optimization to make here. The low position is more likely an off-site-signals problem (backlinks/reviews/directory listings) than a content gap.
+
+**Fixes made:** (PR link: to be added on merge)
+- Reworked the homepage's "Fun Things to Do" section copy (English + Hebrew) to explicitly include "fun things to do in Zichron Yaakov" and "children's activity" phrasing, alongside the "family activity" wording already there — natural sentence, not keyword-stuffed.
+- Updated `seo/AGENT_PLAYBOOK.md`'s target query list and `search_console_report.py`'s topic-matching substrings per the owner's request.
+
+**Still open / needs owner action:**
+- **Needs a direct answer before acting:** real Search Console data shows meaningful volume (33 impressions, position 7.5) for "מכונות משחק לאירועים בזיכרון יעקב" — literally "game machines for events in Zichron Yaakov." That phrasing reads like someone searching for a mobile/rental arcade service brought to their own venue, which is a different offering than the Group Rates page (groups visiting RKD's own location). Did not add this to any page copy without confirming RKD actually offers that service — adding it otherwise would be an inaccurate claim.
+- Recommend: get RKD listed on karamel.co.il and tiuli.com (carried over from Run 1 — still not done).
+- Recommend: confirm Google Business Profile is complete, and start collecting Google reviews (carried over from Run 1 — still not done).
+- Watch the `http://` vs `https://` homepage split in Search Console over the next few runs — should fade out if it's just old data, as suspected; if the `http://` count keeps growing instead, that means it's a live redirect problem worth investigating harder.

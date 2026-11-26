@@ -50,8 +50,8 @@ DOPPLER_API_URL = (
 )
 
 TARGET_QUERIES_SUBSTRINGS = [
-    "things to do", "family", "kids", "birthday", "arcade",
-    "אטרקציות", "פעילויות", "ילדים", "משפחה", "יום הולדת", "ארקייד", "zichron", "זכרון",
+    "things to do", "fun", "family", "children", "kids", "birthday", "arcade", "activities",
+    "אטרקציות", "פעילויות", "ילדים", "משפחה", "יום הולדת", "ארקייד", "מכונות משחק", "zichron", "זכרון",
 ]
 
 
