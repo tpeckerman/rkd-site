@@ -10,12 +10,20 @@ The service account must be added as a user (Restricted is enough) on the
 Search Console property at https://search.google.com/search-console
 (Settings -> Users and permissions).
 
-Usage:
-    GOOGLE_SA_KEY_FILE=/path/to/key.json python3 seo/search_console_report.py
+The key itself is never committed to this repo (it's public). It's fetched,
+in order:
+  1. From Doppler (project rkd-seo, config prd, secret GOOGLE_SA_KEY_JSON),
+     via a plain HTTPS GET to api.doppler.com. This works in ANY session,
+     including the unattended weekly job, as long as that session's
+     environment has a Doppler API credential configured (via
+     request_credential) — the network proxy injects the Authorization
+     header automatically, so this script never needs the Doppler token
+     itself, only network access to api.doppler.com.
+  2. A local key file, for convenience: $GOOGLE_SA_KEY_FILE, or
+     ~/.secrets/rkd-seo-sa.json.
 
-The key file path is read from an environment variable — never hardcode a
-path to a real key file in this script, and never commit a key file to this
-repo (it's public).
+Usage:
+    python3 seo/search_console_report.py
 """
 import base64
 import json
@@ -24,6 +32,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import urllib.request
 import urllib.parse
 
@@ -31,6 +40,14 @@ SITE_URL = "sc-domain:rkdzichron.com"
 SCOPE = "https://www.googleapis.com/auth/webmasters.readonly"
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 API_URL = f"https://www.googleapis.com/webmasters/v3/sites/{urllib.parse.quote(SITE_URL, safe='')}/searchAnalytics/query"
+
+DOPPLER_PROJECT = "rkd-seo"
+DOPPLER_CONFIG = "prd"
+DOPPLER_SECRET_NAME = "GOOGLE_SA_KEY_JSON"
+DOPPLER_API_URL = (
+    f"https://api.doppler.com/v3/configs/config/secret"
+    f"?project={DOPPLER_PROJECT}&config={DOPPLER_CONFIG}&name={DOPPLER_SECRET_NAME}"
+)
 
 TARGET_QUERIES_SUBSTRINGS = [
     "things to do", "family", "kids", "birthday", "arcade",
@@ -56,10 +73,43 @@ def sign_rs256(private_key_pem: str, signing_input: bytes) -> bytes:
         os.unlink(key_path)
 
 
-def get_access_token(key_file: str) -> str:
-    with open(key_file, encoding="utf-8") as f:
-        creds = json.load(f)
+def load_from_doppler() -> dict | None:
+    """Fetch the service-account JSON from Doppler. Returns None (not an
+    error) if the Doppler credential isn't configured in this session's
+    environment — callers should fall back to a local file in that case."""
+    req = urllib.request.Request(DOPPLER_API_URL)
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            body = json.load(resp)
+    except urllib.error.HTTPError as e:
+        if e.code in (401, 403):
+            return None  # no Doppler credential in this session — fall back
+        raise
+    except urllib.error.URLError:
+        return None  # host not reachable from this session — fall back
+    return json.loads(body["value"]["raw"])
 
+
+def load_service_account_credentials() -> dict:
+    creds = load_from_doppler()
+    if creds is not None:
+        print("Loaded service-account key from Doppler.", file=sys.stderr)
+        return creds
+
+    key_file = os.environ.get("GOOGLE_SA_KEY_FILE", DEFAULT_KEY_FILE)
+    if not os.path.exists(key_file):
+        print("Could not load the key from Doppler, and no local key file found at "
+              f"{key_file}.", file=sys.stderr)
+        print("Either configure the Doppler credential for api.doppler.com in this "
+              f"session, or set GOOGLE_SA_KEY_FILE / place a key at {DEFAULT_KEY_FILE}.",
+              file=sys.stderr)
+        sys.exit(1)
+    print(f"Loaded service-account key from local file {key_file}.", file=sys.stderr)
+    with open(key_file, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_access_token(creds: dict) -> str:
     now = int(time.time())
     header = {"alg": "RS256", "typ": "JWT"}
     claims = {
@@ -105,14 +155,8 @@ DEFAULT_KEY_FILE = os.path.expanduser("~/.secrets/rkd-seo-sa.json")
 
 
 def main():
-    key_file = os.environ.get("GOOGLE_SA_KEY_FILE", DEFAULT_KEY_FILE)
-    if not os.path.exists(key_file):
-        print(f"No key file found at {key_file}.", file=sys.stderr)
-        print("Set GOOGLE_SA_KEY_FILE to the path of the service account JSON key, "
-              f"or place it at {DEFAULT_KEY_FILE}.", file=sys.stderr)
-        sys.exit(1)
-
-    token = get_access_token(key_file)
+    creds = load_service_account_credentials()
+    token = get_access_token(creds)
 
     print(f"=== Search Console performance for {SITE_URL}, last 90 days ===\n")
 
