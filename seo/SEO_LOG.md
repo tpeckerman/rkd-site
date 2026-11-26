@@ -61,3 +61,17 @@ Same 90-day window as Run 1's addendum (too little time has passed for meaningfu
 - Recommend: get RKD listed on karamel.co.il and tiuli.com (carried over from Run 1 — still not done).
 - Recommend: confirm Google Business Profile is complete, and start collecting Google reviews (carried over from Run 1 — still not done).
 - Watch the `http://` vs `https://` homepage split in Search Console over the next few runs — should fade out if it's just old data, as suspected; if the `http://` count keeps growing instead, that means it's a live redirect problem worth investigating harder.
+
+## Run 3 — 2026-11-26
+
+Follow-up to Run 2: owner asked how to get the exact target phrases (not just the underlying concept) to literally appear on the site, in both languages.
+
+**What was done:** Audited all 10 target phrases (5 English, 5 Hebrew) from the playbook against the live page text with exact substring matching. 4 English and 2 Hebrew phrases were only approximately covered (right concept nearby, but not the literal contiguous phrase) — reworked the homepage About/intro copy and the birthday page's meta description, in both languages, so every target phrase now appears verbatim at least once:
+- EN: "fun things to do in Zichron Yaakov", "family activities Zichron Yaakov", "children's activities Zichron Yaakov", "arcade Zichron Yaakov" (all on `index.html`), "kids birthday party Zichron Yaakov" (`birthday.html`)
+- HE: "דברים כיפיים לעשות בזכרון יעקב", "פעילות משפחתית בזכרון יעקב", "פעילויות לילדים בזכרון יעקב", "ארקייד בזכרון יעקב" (all on `he/index.html`), "מסיבת יום הולדת לילדים בזכרון יעקב" (`he/birthday.html`)
+
+Kept it to one natural sentence per phrase rather than repeating any phrase multiple times per page — exact-match keyword stuffing is a known negative signal, not a positive one, so the goal was "present once, naturally," not maximum repetition.
+
+**Fixes made:** (PR link: to be added on merge) — see files listed above.
+
+**Still open / needs owner action:** unchanged from Run 2 (karamel.co.il/tiuli.com listing, Google Business Profile, reviews, the "מכונות משחק לאירועים" service-offering question, watching the http/https split).
