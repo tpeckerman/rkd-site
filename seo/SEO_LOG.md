@@ -75,3 +75,20 @@ Kept it to one natural sentence per phrase rather than repeating any phrase mult
 **Fixes made:** (PR link: to be added on merge) — see files listed above.
 
 **Still open / needs owner action:** unchanged from Run 2 (karamel.co.il/tiuli.com listing, Google Business Profile, reviews, the "מכונות משחק לאירועים" service-offering question, watching the http/https split).
+
+## Run 4 — 2026-11-26
+
+Owner clarified the real goal: iterate over **all** real, relevant search phrases in both languages — not a fixed hand-picked list — until each one sits at page 1 (avg position ≤10). Rebuilt the agent around this: `seo/search_console_report.py` now maintains a persistent `seo/keyword_tracker.json`, auto-populated from every real query Search Console reports that matches the topic-relevance filter, tracking each one's position over time and its `targeting` / `page1` status. The playbook's "Target queries" section is rewritten accordingly — the fixed list becomes a handful of seed phrases, not the actual target set.
+
+**Keyword tracker summary (first run of the tracker, seeded from current data):**
+- 27 relevant queries already at page 1 (no action)
+- 16 relevant queries not yet at page 1 ("new opportunities," since this is the tracker's first run — nothing was previously tracked)
+- 0 promoted, 0 "still targeting" (both expected to populate starting next run, once this run's targets get re-checked)
+- Caught a false positive: "ערכות לגיל הזהב זכרון וקשר" (15 impressions, position 56.9) matched the relevance filter only because "זכרון" generically means "memory" in Hebrew, not because it's about Zichron Yaakov — it's a senior-citizens program, unrelated to this business. Documented in the playbook as a known filter risk; did not treat it as a real opportunity.
+
+**Fixes made (targeting 3 of the 16 opportunities):** (PR link: to be added on merge)
+- "מסיבת יום הולדת לילדים" (5 impressions, position 11.6 — closest near-miss): the exact phrase was already in `birthday.html`'s title/meta, but the page's most prominent H1 used the *plural* "מסיבות" where the real query is *singular* "מסיבת" — fixed the H1 (both `birthday.html` and `he/birthday.html`) to match the singular form people actually search.
+- "air hockey arcade" (2 impressions, position 13.0): added the exact phrase to `air-hockey.html` / `he/air-hockey.html`'s tagline, which didn't contain it before.
+- "משחקי וידאו לילדים בזיכרון יעקב" (3 impressions, position 14.3): added "video games" / "משחקי וידאו" as an explicit synonym alongside "arcade games" / "משחקי ארקייד" on the homepage (`index.html`, `he/index.html`), since the site previously only used "arcade games" wording.
+
+**Still open / needs owner action:** unchanged from Run 2/3 (karamel.co.il/tiuli.com listing, Google Business Profile, reviews, the "מכונות משחק לאירועים" service-offering question, watching the http/https split) — plus: next run should check whether these 3 fixes moved their target queries' positions.

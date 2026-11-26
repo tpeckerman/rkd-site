@@ -4,28 +4,44 @@ This is the fixed process an SEO run follows for rkdzichron.com, whether it's
 triggered manually or by the weekly scheduled task. Each run appends an entry
 to `seo/SEO_LOG.md` so the next run has history to compare against.
 
-## Target queries
+## The actual goal
 
-What "ranking" means for this site — the searches a real customer would type.
+**Not** "does the site show up for a fixed list of ~10 phrases we picked."
+**Is**: every real, relevant query — in English and Hebrew — that Search
+Console shows people actually typing should eventually sit at average
+position 10 or better (page 1 — Google shows roughly 10 organic results).
+That's a growing, data-driven set, not a closed list: the site's own real
+search traffic defines what to chase, and the set gets bigger as the site
+gets more visibility (more impressions surface more real queries).
 
-English:
-- things to do with kids in Zichron Yaakov
-- fun things to do in Zichron Yaakov
-- family activities Zichron Yaakov
-- children's activities Zichron Yaakov
-- kids birthday party Zichron Yaakov
-- arcade Zichron Yaakov
+This is tracked in **`seo/keyword_tracker.json`**, maintained automatically
+by `seo/search_console_report.py` — see "Search Console access" below. Don't
+hand-maintain a separate query list; the tracker IS the list, built from
+real data every run.
 
-Hebrew:
-- אטרקציות למשפחה או ילדים זכרון יעקב
-- פעילויות לילדים בזכרון יעקב
-- מסיבת יום הולדת לילדים בזכרון יעקב
-- RKD ארקייד זכרון יעקב (brand + location sanity check)
+**Relevance filter, not a closed list:** `TARGET_QUERIES_SUBSTRINGS` in
+`search_console_report.py` decides which of the real queries Search Console
+reports are "on topic" for this business (vs. noise — see the false-positive
+note below). Add to it whenever a genuinely new relevant term turns up (e.g.
+"מכונות משחק" was added after Run 1 found "מכונות משחק לאירועים בזיכרון יעקב"
+with real volume). This filter should grow; it should almost never shrink.
 
-This list grows as real search terms turn up in Search Console data (see
-Run 2's log entry for an example: "מכונות משחק לאירועים" was found this way
-and added). When it does, also update `TARGET_QUERIES_SUBSTRINGS` in
-`seo/search_console_report.py` so the report actually flags matches on it.
+**Known false-positive risk:** the Hebrew word "זכרון" literally means
+"memory," not just "Zichron" — Run 4 found an irrelevant query
+("ערכות לגיל הזהב זכרון וקשר", about a senior-citizens program, nothing to do
+with this business) that matched purely on that generic word. Use judgment
+before treating every substring match as a real opportunity — check that the
+query is actually about family/kids/arcade/Zichron-Yaakov-the-town, not just
+that it happens to contain one of the filter words.
+
+**A handful of seed phrases** the owner specifically cares about even before
+they show real volume (useful for Run 1-3's "did we even get an exact
+phrase on the page" checks, less relevant now that the tracker exists):
+"fun things to do in Zichron Yaakov" / "family activities Zichron Yaakov" /
+"children's activities Zichron Yaakov" / "kids birthday party Zichron
+Yaakov" / "arcade Zichron Yaakov" (EN), and their Hebrew equivalents
+(see Run 3's log entry for the exact pairs). These are already on the site
+verbatim — no need to re-add them, just don't accidentally remove them.
 
 ## Process
 
@@ -36,20 +52,22 @@ and added). When it does, also update `TARGET_QUERIES_SUBSTRINGS` in
    Site content also changes independently of SEO work (new pages, pricing,
    features) — always re-read the live files before assuming their state.
 
-2. **Baseline check — real data.** Run `python3 seo/search_console_report.py`
-   (see "Search Console access" below). This calls the real Search Console
-   API and reports actual clicks/impressions/CTR/average-position per query
-   and per page — ground truth, not a guess. It fetches its credentials from
-   Doppler automatically, which works in any session including the
-   unattended weekly job — nothing needs to be pasted in by hand anymore.
+2. **Baseline check — real data, full query set.** Run
+   `python3 seo/search_console_report.py` (see "Search Console access"
+   below). This calls the real Search Console API, updates
+   `seo/keyword_tracker.json` with every relevant query's current position,
+   and prints four buckets: queries **promoted** to page 1 since last check
+   (a win — note it), **new opportunities** (relevant, real, not yet page 1),
+   **still targeting** (tracked before, still not page 1 — these are your
+   best candidates, since you already tried once), and **page 1** (already
+   there — just confirm they're holding, no action needed).
 
    **If the script exits with an error** (e.g. the Doppler credential or
    `api.doppler.com` network access is missing from this session's
-   environment for some reason), fall back to a `WebSearch` for each target
-   query instead, and **say plainly in the log that this fallback was used
-   and why** — don't present it as equivalent to real data. It's a rough
-   directional signal only: different search index, not geolocated to
-   Israel, not authoritative.
+   environment for some reason), fall back to a `WebSearch` for the seed
+   phrases listed above instead, and **say plainly in the log that this
+   fallback was used and why** — don't present it as equivalent to real
+   data, and don't update the tracker from approximate data.
 
 3. **Technical audit.** Check every page (English root + `/he/` mirror):
    - `<title>`, meta description, canonical, hreflang (en/he/x-default) all
@@ -65,14 +83,38 @@ and added). When it does, also update `TARGET_QUERIES_SUBSTRINGS` in
      rest of the site (title/description/hreflang/schema) — new features
      (e.g. the booking page) get built without this by default
 
-4. **Pick 1–3 concrete fixes.** Prefer fixing real gaps found in step 3 over
-   speculative changes. Don't rewrite copy that's already reasonable just to
-   have something to do this run.
+4. **Pick 1–3 concrete fixes**, combining what step 2's tracker surfaced and
+   step 3's technical audit found. For keyword opportunities, prioritize
+   "still targeting" queries with decent impressions and a position in the
+   teens/twenties (close to page 1, worth pushing) over position 50+ queries
+   (too far off to realistically move with on-page work alone) or 1-impression
+   queries (too little signal to bother with yet). For each one you work on:
+   find or add a page whose actual topic matches the query's intent, and work
+   the query's real wording into that page's prominent elements (H1, title,
+   or meta description, in whichever language the query was in) — a phrase
+   buried once in body copy carries less weight than one in a heading. Prefer
+   fixing real gaps over speculative changes; don't rewrite copy that's
+   already reasonable just to have something to do this run.
+
+   **Sanity-check the query's actual intent before writing copy for it.**
+   Run 2 found a real, high-volume query ("מכונות משחק לאירועים בזיכרון
+   יעקב") that reads like a *different offering* (mobile/rental arcade
+   machines for off-site events) than anything on the Group Rates page
+   (groups visiting RKD's own location) — don't add page copy implying a
+   service the business doesn't actually offer. When a query's intent is
+   ambiguous or might not match a real offering, flag it in the log under
+   "Still open" and ask the owner, rather than guessing.
 
 5. **Deploy**, matching how this repo works:
    - Branch from `origin/main`: `git checkout -B claude/seo-agent-run-N origin/main`
-   - Commit, push, open a PR against `main`, merge (squash)
+   - Commit, push, open a PR against `main`, merge (squash) — if the merge
+     call fails with "Pull Request has merge conflicts", it's almost always
+     this repo's squash-merge history issue, not a real conflict: branch a
+     temp branch from the current `origin/main`, `git cherry-pick` your
+     commit onto it, force-push that onto your branch, and retry the merge.
    - GitHub Pages redeploys automatically after merge
+   - `seo/keyword_tracker.json` gets updated by step 2 and should be
+     committed as part of this run's PR, alongside any content fixes
 
 6. **Log the run** in `seo/SEO_LOG.md` (template below).
 
@@ -107,6 +149,13 @@ added to the environment's network allowlist once via `update_environment`
 and should already be there for any session using the same "Default"
 environment.
 
+Each run, the script rewrites `seo/keyword_tracker.json` in place with every
+relevant query's current position and status (`targeting` or `page1`) — this
+file is the persistent memory of "what are we chasing and how's it going,"
+across however many runs it takes. Commit it every run, even if a query's
+position barely moved; the `best_position`/`first_seen`/`promoted_date`
+fields are what let a future run tell real progress from noise.
+
 ## Known gaps / off-site recommendations
 
 These need the site owner's own action — flag them each run until done,
@@ -128,12 +177,12 @@ don't try to automate them:
 ```
 ## Run N — YYYY-MM-DD
 
-**Baseline search check:** (one line per target query: visible / not visible / what showed instead)
+**Keyword tracker summary:** (counts from this run's script output — promoted / new opportunities / still targeting / page 1 — plus anything noteworthy, like a promotion worth celebrating or a false-positive filtered out)
 
 **Technical audit findings:**
 - ...
 
-**Fixes made:** (PR link)
+**Fixes made:** (PR link) — which query/queries each fix targets, and which page/element it was added to
 - ...
 
 **Still open / needs owner action:**

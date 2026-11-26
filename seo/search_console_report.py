@@ -53,6 +53,89 @@ TARGET_QUERIES_SUBSTRINGS = [
     "things to do", "fun", "family", "children", "kids", "birthday", "arcade", "activities",
     "אטרקציות", "פעילויות", "ילדים", "משפחה", "יום הולדת", "ארקייד", "מכונות משחק", "zichron", "זכרון",
 ]
+# This is a RELEVANCE FILTER, not a closed list: any real query containing one
+# of these substrings is "on topic" for the business and gets tracked, whether
+# or not we specifically wrote it into the playbook. Add to this list whenever
+# a new relevant term turns up in real data (e.g. "מכונות משחק" was added
+# after Run 1 found "מכונות משחק לאירועים בזיכרון יעקב" with real volume) —
+# the goal is to keep covering the full, growing set of real searches in both
+# languages, not a fixed set of hand-picked phrases.
+
+PAGE1_POSITION = 10.5  # avg_position <= this counts as "page 1" (Google shows ~10 results)
+MIN_IMPRESSIONS_TO_TRACK = 1
+
+TRACKER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keyword_tracker.json")
+
+
+def is_hebrew(text: str) -> bool:
+    return any("֐" <= ch <= "׿" for ch in text)
+
+
+def load_tracker() -> dict:
+    if os.path.exists(TRACKER_PATH):
+        with open(TRACKER_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    return {"queries": {}}
+
+
+def save_tracker(tracker: dict) -> None:
+    import datetime
+    tracker["last_updated"] = datetime.date.today().isoformat()
+    with open(TRACKER_PATH, "w", encoding="utf-8") as f:
+        json.dump(tracker, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
+
+
+def update_tracker(tracker: dict, rows: list) -> dict:
+    """Update the persistent keyword tracker from this run's real data.
+    Returns a summary dict: new_opportunities, promoted, still_targeting,
+    page1 — lists of query dicts — for the caller to report and act on."""
+    import datetime
+    today = datetime.date.today().isoformat()
+    queries = tracker.setdefault("queries", {})
+
+    relevant = [r for r in rows if r["impressions"] >= MIN_IMPRESSIONS_TO_TRACK
+                and any(s.lower() in r["keys"][0].lower() for s in TARGET_QUERIES_SUBSTRINGS)]
+
+    new_opportunities, promoted, still_targeting, page1 = [], [], [], []
+
+    for r in relevant:
+        q = r["keys"][0]
+        pos = r["position"]
+        is_page1 = pos <= PAGE1_POSITION
+        entry = queries.get(q)
+        if entry is None:
+            entry = {
+                "language": "he" if is_hebrew(q) else "en",
+                "first_seen": today,
+                "first_position": pos,
+                "best_position": pos,
+                "status": "page1" if is_page1 else "targeting",
+                "promoted_date": today if is_page1 else None,
+            }
+            queries[q] = entry
+            (page1 if is_page1 else new_opportunities).append({**r, "query": q})
+        else:
+            was_page1 = entry["status"] == "page1"
+            entry["best_position"] = min(entry["best_position"], pos)
+            if is_page1 and not was_page1:
+                entry["status"] = "page1"
+                entry["promoted_date"] = today
+                promoted.append({**r, "query": q})
+            elif is_page1:
+                page1.append({**r, "query": q})
+            else:
+                still_targeting.append({**r, "query": q})
+        entry["current_position"] = pos
+        entry["current_impressions"] = r["impressions"]
+        entry["last_checked"] = today
+
+    return {
+        "new_opportunities": sorted(new_opportunities, key=lambda r: -r["impressions"]),
+        "promoted": sorted(promoted, key=lambda r: -r["impressions"]),
+        "still_targeting": sorted(still_targeting, key=lambda r: -r["impressions"]),
+        "page1": sorted(page1, key=lambda r: -r["impressions"]),
+    }
 
 
 def b64url(data: bytes) -> str:
@@ -154,6 +237,16 @@ def query_search_analytics(access_token: str, days: int = 90, dimensions=("query
 DEFAULT_KEY_FILE = os.path.expanduser("~/.secrets/rkd-seo-sa.json")
 
 
+def print_rows(rows, label):
+    print(f"-- {label} ({len(rows)}) --")
+    if not rows:
+        print("  (none)")
+    for r in rows:
+        print(f"  '{r['query']}'  clicks={r['clicks']}  impressions={r['impressions']}  "
+              f"ctr={r['ctr']:.1%}  avg_position={r['position']:.1f}")
+    print()
+
+
 def main():
     creds = load_service_account_credentials()
     token = get_access_token(creds)
@@ -166,12 +259,18 @@ def main():
         print("No query data returned at all — property may be too new, or no impressions yet.")
     else:
         print(f"Total distinct queries with impressions: {len(rows)}\n")
-        relevant = [r for r in rows if any(s.lower() in r["keys"][0].lower() for s in TARGET_QUERIES_SUBSTRINGS)]
-        print(f"-- Queries matching our target topics ({len(relevant)} of {len(rows)}) --")
-        for r in sorted(relevant, key=lambda r: -r["impressions"]):
-            print(f"  '{r['keys'][0]}'  clicks={r['clicks']}  impressions={r['impressions']}  "
-                  f"ctr={r['ctr']:.1%}  avg_position={r['position']:.1f}")
-        print("\n-- Top 20 queries overall (by impressions) --")
+
+        tracker = load_tracker()
+        summary = update_tracker(tracker, rows)
+        save_tracker(tracker)
+
+        print("=== KEYWORD TRACKER (goal: every relevant query at avg_position <= 10) ===\n")
+        print_rows(summary["promoted"], "PROMOTED TO PAGE 1 since last check — worth noting as a win")
+        print_rows(summary["new_opportunities"], "NEW relevant queries not yet on page 1 — candidates to target")
+        print_rows(summary["still_targeting"], "Still below page 1, tracked before — pick 1-3 of these to improve this run")
+        print_rows(summary["page1"], "Already on page 1 (no action needed, just confirming they're holding)")
+
+        print("-- Top 20 queries overall, any topic (by impressions) --")
         for r in sorted(rows, key=lambda r: -r["impressions"])[:20]:
             print(f"  '{r['keys'][0]}'  clicks={r['clicks']}  impressions={r['impressions']}  "
                   f"ctr={r['ctr']:.1%}  avg_position={r['position']:.1f}")
