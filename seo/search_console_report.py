@@ -86,7 +86,46 @@ def save_tracker(tracker: dict) -> None:
         f.write("\n")
 
 
-def update_tracker(tracker: dict, rows: list) -> dict:
+GIVE_UP_AFTER_EDITS = 4  # stop making on-page edits for a query after this many runs with edits and no promotion
+
+
+def next_run_number(tracker: dict) -> int:
+    """Call once per run, before update_tracker, to get this run's number
+    (also used as the Sheets/log run label) — persisted so it's consistent
+    regardless of what seo/SEO_LOG.md says."""
+    tracker["run_count"] = tracker.get("run_count", 0) + 1
+    return tracker["run_count"]
+
+
+def record_edit(tracker: dict, query: str, run: int, description: str, page: str, pr_link: str = None) -> None:
+    """Call this once per query a run makes an on-page edit for — feeds both
+    the per-query edit count (for the give-up rule) and the tracker-level
+    changes log (for the Sheets "Changes" tab / seo/SEO_LOG.md)."""
+    import datetime
+    today = datetime.date.today().isoformat()
+    entry = tracker.setdefault("queries", {}).setdefault(query, {})
+    entry.setdefault("edits", []).append({"run": run, "date": today})
+    changes = tracker.setdefault("changes_log", [])
+    changes.append({
+        "run": run, "date": today, "query": query, "description": description,
+        "page": page, "pr_link": pr_link,
+    })
+
+
+def queries_to_abandon(tracker: dict) -> list[str]:
+    """Queries that have had edits in >= GIVE_UP_AFTER_EDITS runs, are still
+    'targeting' (never reached page1), and haven't already been marked
+    abandoned — per the playbook's 'give up gracefully' rule. Call after
+    update_tracker; mark returned queries in this run's log entry, then set
+    their status to 'abandoned' so future runs stop re-flagging them."""
+    abandoned = []
+    for q, entry in tracker.get("queries", {}).items():
+        if entry.get("status") == "targeting" and len(entry.get("edits", [])) >= GIVE_UP_AFTER_EDITS:
+            abandoned.append(q)
+    return abandoned
+
+
+def update_tracker(tracker: dict, rows: list, run: int) -> dict:
     """Update the persistent keyword tracker from this run's real data.
     Returns a summary dict: new_opportunities, promoted, still_targeting,
     page1 — lists of query dicts — for the caller to report and act on."""
@@ -129,6 +168,9 @@ def update_tracker(tracker: dict, rows: list) -> dict:
         entry["current_position"] = pos
         entry["current_impressions"] = r["impressions"]
         entry["last_checked"] = today
+        entry.setdefault("history", []).append({
+            "run": run, "date": today, "position": pos, "impressions": r["impressions"],
+        })
 
     return {
         "new_opportunities": sorted(new_opportunities, key=lambda r: -r["impressions"]),
@@ -261,14 +303,27 @@ def main():
         print(f"Total distinct queries with impressions: {len(rows)}\n")
 
         tracker = load_tracker()
-        summary = update_tracker(tracker, rows)
+        run = next_run_number(tracker)
+        summary = update_tracker(tracker, rows, run)
+
+        to_abandon = queries_to_abandon(tracker)
+        for q in to_abandon:
+            tracker["queries"][q]["status"] = "abandoned"
+
         save_tracker(tracker)
 
-        print("=== KEYWORD TRACKER (goal: every relevant query at avg_position <= 10) ===\n")
+        print(f"=== KEYWORD TRACKER — run {run} (goal: every relevant query at avg_position <= 10) ===\n")
         print_rows(summary["promoted"], "PROMOTED TO PAGE 1 since last check — worth noting as a win")
         print_rows(summary["new_opportunities"], "NEW relevant queries not yet on page 1 — candidates to target")
         print_rows(summary["still_targeting"], "Still below page 1, tracked before — pick 1-3 of these to improve this run")
         print_rows(summary["page1"], "Already on page 1 (no action needed, just confirming they're holding)")
+
+        if to_abandon:
+            print(f"-- GIVING UP on {len(to_abandon)} quer{'y' if len(to_abandon)==1 else 'ies'} after "
+                  f"{GIVE_UP_AFTER_EDITS}+ edit runs with no promotion — log these as needing off-site work, not more copy --")
+            for q in to_abandon:
+                print(f"  '{q}'")
+            print()
 
         print("-- Top 20 queries overall, any topic (by impressions) --")
         for r in sorted(rows, key=lambda r: -r["impressions"])[:20]:

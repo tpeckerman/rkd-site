@@ -138,3 +138,17 @@ Owner asked specifically about "activities for kids Zichron" and asked to formal
 - Added a full **master prompt list** to `seo/AGENT_PLAYBOOK.md` — every phrase the agent checks, with status, so it's a reviewable, explicit list rather than scattered across run logs
 
 **Still open / needs owner action:** unchanged from Run 6, plus the new candidates from this run's expansion (notably "zichron yaakov events" and the "והסביבה"/"and surroundings" pattern, which keeps recurring in Hebrew autocomplete — may be worth a dedicated angle in a future run).
+
+## Run 8 — 2026-11-26
+
+Owner asked four things: (1) a Google Sheets export (phrases × run dates, rank in each cell; second tab = running change log), (2) what caps the number of iterations, (3) confirm the "good enough" rank threshold, (4) make the agent consider rewriting existing content for real users, not just bolting on keyword sentences.
+
+**Answers / changes:**
+- (2) Added a real rule: after 4 separate runs of on-page edits on a query with no promotion to page 1, stop editing for it and mark it "needs off-site work" instead (`GIVE_UP_AFTER_EDITS` in `seo/search_console_report.py`, enforced by `queries_to_abandon()`).
+- (3) Confirmed existing `PAGE1_POSITION = 10.5` is the threshold — already matches the "top 10ish" goal, nothing changed.
+- (4) Added an explicit "rewrite before you append" rule to the playbook: every edit must pass "would a real visitor find this clearer/more appealing," not just "does it contain the keyword" — this was already the practice in Runs 1-7, now it's written down as a hard requirement.
+- (1) Built `seo/sheets_sync.py` (same service-account auth, Sheets API scope instead of Search Console's) and extended `keyword_tracker.json`'s schema with per-query `history` (every run's position, for the Rankings tab) and a tracker-level `changes_log` (for the Changes tab, populated via a new `record_edit()` function). Backfilled 8 changes_log entries for every fix made in Runs 4-7 retroactively, so the sheet won't start empty.
+
+**Still open / needs owner action:**
+- The spreadsheet itself needs one-time setup only the owner can do (a service account can't create/share a Sheet on its own): enable the Sheets API for the `rkd-seo` GCP project, create a Google Sheet, share it with `seo-reader@rkd-seo.iam.gserviceaccount.com` as Editor, and give the Sheet ID. Documented in the playbook's "Rank tracking spreadsheet" section.
+- Everything from Run 7 (karamel.co.il/tiuli.com, Google Business Profile, reviews, "zichron yaakov events" / "והסביבה" candidates, escape room / Petah Tikva / Shabbat mismatches).
